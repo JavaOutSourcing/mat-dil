@@ -27,6 +27,8 @@ public enum ResponseStatus {
     FOOD_CHECK_SUCCESS(HttpStatus.OK, "음식 조회에 성공하였습니다."),
     FOOD_UPDATE_SUCCESS(HttpStatus.OK, "음식 수정에 성공하였습니다."),
     FOOD_DELETE_SUCCESS(HttpStatus.OK, "음식이 삭제되었습니다."),
+    // 주문
+    ORDER_CHECK_SUCCESS(HttpStatus.OK, "주문 조회에 성공하였습니다."),
     // 댓글
     COMMENT_CREATE_SUCCESS(HttpStatus.OK, "댓글 등록에 성공하였습니다."),
     COMMENTS_CHECK_SUCCESS(HttpStatus.OK, "댓글 조회에 성공하였습니다."),

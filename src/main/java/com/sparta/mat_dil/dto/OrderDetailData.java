@@ -2,15 +2,16 @@ package com.sparta.mat_dil.dto;
 
 import com.sparta.mat_dil.enums.ResponseStatus;
 
-public class ResponseRestaurantsData <T> {
-    private String status;
+public class OrderDetailData<T> {
+    private int status;
     private String message;
     private int totalPrice;
     private T data;
 
-    public ResponseRestaurantsData(ResponseStatus responseStatus, T data) {
-        this.status = responseStatus.getHttpStatus().toString();
+    public OrderDetailData(ResponseStatus responseStatus, T data, int totalPrice) {
+        this.status = responseStatus.getHttpStatus().value();
         this.message = responseStatus.getMessage();
+        this.totalPrice = totalPrice;
         this.data = data;
     }
 }

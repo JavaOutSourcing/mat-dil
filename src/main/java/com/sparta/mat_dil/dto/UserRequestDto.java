@@ -1,5 +1,6 @@
 package com.sparta.mat_dil.dto;
 
+import com.sparta.mat_dil.entity.UserType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -28,6 +29,6 @@ public class UserRequestDto {
     @Email(message = "이메일 형식을 입력해 주세요.")
     private String email;
 
-    //@NotBlank(message = "")
-
+    //@NotBlank(message = "유저 타입을 입력해주세요")
+    private UserType userType;
 }

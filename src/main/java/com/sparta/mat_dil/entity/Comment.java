@@ -34,4 +34,8 @@ public class Comment extends Timestamped {
         this.restaurant = restaurant;
         this.description = description;
     }
+
+    public void update(String description){
+        this.description = description;
+    }
 }

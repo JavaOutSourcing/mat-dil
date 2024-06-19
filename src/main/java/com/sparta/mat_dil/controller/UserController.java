@@ -1,16 +1,14 @@
 package com.sparta.mat_dil.controller;
 
-import com.sparta.mat_dil.dto.PasswordRequestDto;
 import com.sparta.mat_dil.dto.UserRequestDto;
-import com.sparta.mat_dil.entity.User;
-import com.sparta.mat_dil.repository.UserRepository;
 import com.sparta.mat_dil.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,7 +16,6 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
-    private final UserRepository userRepository;
 
 
     @PostMapping

@@ -1,10 +1,16 @@
 package com.sparta.mat_dil.controller;
 
+import com.sparta.mat_dil.dto.CommentRequestDto;
+import com.sparta.mat_dil.dto.CommentResponseDto;
+import com.sparta.mat_dil.entity.User;
+import com.sparta.mat_dil.repository.UserRepository;
 import com.sparta.mat_dil.service.CommentService;
 import com.sparta.mat_dil.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,4 +21,13 @@ public class RestaurantController {
 
     private final CommentService commentService;
 
+    private final UserRepository userRepository;
+
+//    @PostMapping("/{restaurants_id}/comments")
+//    public ResponseEntity<CommentResponseDto> createComment(@PathVariable Long restaurants_id, @RequestBody CommentRequestDto requestDto,
+//                                                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+//        CommentResponseDto responseDto = commentService.createComment(restaurants_id, requestDto, userDetails.getUser());
+//
+//        return ResponseEntity.ok(responseDto);
+//    }
 }

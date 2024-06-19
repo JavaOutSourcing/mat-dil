@@ -1,9 +1,11 @@
 package com.sparta.mat_dil.controller;
 
+import com.sparta.mat_dil.dto.UserRequestDto;
 import com.sparta.mat_dil.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -11,5 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserService userService;
+
+
+    @PostMapping
+    public ResponseEntity<String> createUser(@Valid @RequestBody UserRequestDto requestDto){
+
+    }
+
 
 }

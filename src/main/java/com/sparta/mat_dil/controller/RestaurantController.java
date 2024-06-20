@@ -27,13 +27,24 @@ public class RestaurantController {
     * 음식점 등록
     * @param requestDto 요청 객체
     * @param userDetails 회원 정보
-    * @return 인증번호
+    * @return status.code , message
     **/
 //    @PostMapping
 //    public ResponseEntity<ResponseDataDto<RestaurantResponseDto>> createRestaurant(@Valid @RequestBody RestaurantRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 //        RestaurantResponseDto responseDto = restaurantService.createRestaurant(requestDto, userDetails.getUser());
 //        return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.RESTAURANT_CREATE_SUCCESS, responseDto));
 //    }
+
+
+    /**
+    * 음식점 조회
+    * @param page 요청 객체
+    * @return status.code, message
+    **/
+    @GetMapping
+    public Page<RestaurantResponseDto> getRestaurantList(@RequestParam(value = "page") int page) {
+        return restaurantService.getNewsfeed(page - 1);
+    }
 
     //댓글 등록
 //    @PostMapping("/{restaurants_id}/comments")

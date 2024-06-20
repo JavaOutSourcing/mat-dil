@@ -3,7 +3,9 @@ package com.sparta.mat_dil.controller;
 import com.sparta.mat_dil.dto.CommentRequestDto;
 import com.sparta.mat_dil.dto.CommentResponseDto;
 import com.sparta.mat_dil.dto.PasswordRequestDto;
+import com.sparta.mat_dil.dto.ResponseDataDto;
 import com.sparta.mat_dil.entity.Restaurant;
+import com.sparta.mat_dil.enums.ResponseStatus;
 import com.sparta.mat_dil.service.CommentService;
 import com.sparta.mat_dil.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
@@ -23,19 +25,19 @@ public class RestaurantController {
 
     //댓글 등록
 //    @PostMapping("/{restaurants_id}/comments")
-//    public ResponseEntity<CommentResponseDto> createComment(@PathVariable Long restaurants_id, @RequestBody CommentRequestDto requestDto,
+//    public ResponseEntity<ResponseDataDto<CommentResponseDto>> createComment(@PathVariable Long restaurants_id, @RequestBody CommentRequestDto requestDto,
 //                                                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
 //        CommentResponseDto responseDto = commentService.createComment(restaurants_id, requestDto, userDetails.getUser());
 //
-//        return ResponseEntity.ok(responseDto);
+//        return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.COMMENTS_CHECK_SUCCESS, responseDto));
 //    }
 
     //전체 댓글 조회
     @GetMapping("/{restaurantId}/comments")
-    public ResponseEntity<List<CommentResponseDto>> getAllComments(@PathVariable Long restaurantId){
+    public ResponseEntity<ResponseDataDto<List<CommentResponseDto>>> getAllComments(@PathVariable Long restaurantId){
         List<CommentResponseDto> responseDtoList = commentService.getAllComments(restaurantId);
 
-        return ResponseEntity.ok(responseDtoList);
+        return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.COMMENTS_CHECK_SUCCESS, responseDtoList));
     }
 
     //단일 댓글 조회

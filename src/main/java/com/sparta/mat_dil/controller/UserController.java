@@ -1,8 +1,7 @@
 package com.sparta.mat_dil.controller;
 
-import com.sparta.mat_dil.dto.ProfileRequestDto;
-import com.sparta.mat_dil.dto.ProfileResponseDto;
-import com.sparta.mat_dil.dto.UserRequestDto;
+import com.sparta.mat_dil.dto.*;
+import com.sparta.mat_dil.enums.ResponseStatus;
 import com.sparta.mat_dil.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,19 +21,21 @@ public class UserController {
     private final UserService userService;
 
 
+    //회원 가입
     @PostMapping
-    public ResponseEntity<String> createUser(@Valid @RequestBody UserRequestDto requestDto){
+    public ResponseEntity<ResponseMessageDto> createUser(@Valid @RequestBody UserRequestDto requestDto){
 
         userService.createUser(requestDto);
-        return ResponseEntity.ok("회원가입에 성공하였습니다.");
+        return ResponseEntity.ok(new ResponseMessageDto(ResponseStatus.SIGN_UP_SUCCESS));
     }
 
+    //회원 탈퇴
 //    @PatchMapping
-//    public ResponseEntity<String> withdrawUser(@Valid @RequestBody PasswordRequestDto requestDTO,
+//    public ResponseEntity<ResponseMessageDto> withdrawUser(@Valid @RequestBody PasswordRequestDto requestDTO,
 //        @AuthenticationPrincipal UserDetailsImpl userDetails){
 //
 //        userService.withdrawUser(requestDTO, userDetails.getUser());
-//        return ResponseEntity.ok("회원탈퇴에 성공하였습니다.");
+//        return ResponseEntity.ok(new ResponseMessageDto(ResponseStatus.DEACTIVATE_USER_SUCCESS));
 //    }
 
 

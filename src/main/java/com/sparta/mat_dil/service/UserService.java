@@ -12,7 +12,6 @@ import com.sparta.mat_dil.entity.User;
 import com.sparta.mat_dil.enums.ErrorType;
 import com.sparta.mat_dil.exception.CustomException;
 import com.sparta.mat_dil.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -93,7 +92,6 @@ public class UserService {
         }
     }
 
-    private final UserRepository userRepository;
     public ProfileResponseDto getProfile(Long userId) {
         return new ProfileResponseDto(findById(userId));
     }

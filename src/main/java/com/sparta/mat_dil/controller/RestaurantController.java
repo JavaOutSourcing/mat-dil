@@ -46,16 +46,30 @@ public class RestaurantController {
         return restaurantService.getRestaurantList(page - 1);
     }
 
+
     /**
     * 특정 음식점 조회
     * @param id 음식점 id
     * @return status.code, message
-    */
+    **/
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDataDto<RestaurantResponseDto>> getRestaurant(@PathVariable Long id) {
         RestaurantResponseDto responseDto = restaurantService.getRestaurant(id);
         return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.RESTAURANT_CHECK_SUCCESS, responseDto));
     }
+
+
+    /**
+    * 특정 음식점 수정
+    * @param id 음식점 id
+    * @param userDetails 회원 정보
+    * @return status.code, message
+    **/
+//    @PutMapping("/{id}")
+//    public ResponseEntity<ResponseDataDto<RestaurantResponseDto>> updateRestaurant(@PathVariable Long id, @RequestBody RestaurantRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+//        RestaurantResponseDto responseDto = restaurantService.updateRestaurant(id, requestDto, userDetails.getUser());
+//        return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.RESTAURANT_UPDATE_SUCCESS, responseDto));
+//    }
 
 
     //댓글 등록

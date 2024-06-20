@@ -14,6 +14,7 @@ import com.sparta.mat_dil.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,9 +32,7 @@ public class RestaurantService {
     **/
     public RestaurantResponseDto createRestaurant(RestaurantRequestDto requestDto, User loginUser) {
         //UserType 이 판매자가 아닐경우 [권한없음 예외처리]
-        if (!loginUser.getUserType().equals(UserType.SUPPLIER)) {
-            throw new CustomException(ErrorType.NO_ATUTHENTIFICATION);
-        }
+        checkSupplierPermission(loginUser);
 
         Restaurant restaurant = new Restaurant(loginUser, requestDto);
 
@@ -56,13 +55,32 @@ public class RestaurantService {
         return new PageImpl<>(restaurantRepository.findAllByUser_UserStatus(pageable).stream().map(RestaurantResponseDto::new).collect(Collectors.toList()));
     }
 
+
     /** [getRestaurant()] 특정 음식점 조회
-     * @param id 페이지 개수
-     * @return 음식점 정보
-     **/
+    * @param id 페이지 개수
+    * @return 음식점 정보
+    **/
     public RestaurantResponseDto getRestaurant(Long id) {
         //음식점 확인 로직
         Restaurant restaurantInfo = this.findById(id);
+
+        return new RestaurantResponseDto(restaurantInfo);
+    }
+
+
+    /** [updateRestaurant()] 특정 음식점 수정
+     * @param id 페이지 개수
+     * @return 음식점 정보
+     **/
+    @Transactional
+    public RestaurantResponseDto updateRestaurant(Long id, RestaurantRequestDto requestDto, User loginUser) {
+        //음식점 확인 로직
+        Restaurant restaurantInfo = this.findById(id);
+
+        //판매자가 아니고, 게시물을 작성한 판매자가 아닌경우 예외처리
+        checkRestaurantSupplier(restaurantInfo, loginUser);
+
+        restaurantInfo.update(requestDto);
 
         return new RestaurantResponseDto(restaurantInfo);
     }
@@ -73,5 +91,19 @@ public class RestaurantService {
         return restaurantRepository.findById(id).orElseThrow(
                 () -> new CustomException(ErrorType.NOT_FOUND_RESTAURANT)
         );
+    }
+
+    // 권한 확인 메서드 - 판매자가 아닐 경우 예외처리
+    private void checkSupplierPermission(User user) {
+        if (!user.getUserType().equals(UserType.SUPPLIER)) {
+            throw new CustomException(ErrorType.NO_ATUTHENTIFICATION);
+        }
+    }
+
+    // 권한 확인 메서드 - 판매자가 아니고, 게시물을 작성한 판매자가 아닌경우 예외처리
+    private void checkRestaurantSupplier(Restaurant restaurantInfo, User loginUser) {
+        if(loginUser.getUserType() == UserType.SUPPLIER && !restaurantInfo.getUser().getName().equals(loginUser.getName())) {
+            throw new CustomException(ErrorType.NO_ATUTHENTIFICATION);
+        }
     }
 }

@@ -32,4 +32,8 @@ public class Restaurant extends Timestamped{
         this.description = requestDto.getDescription();
     }
 
+    public void update(RestaurantRequestDto requestDto) {
+        this.restaurantName = requestDto.getRestaurantName();
+        this.description = requestDto.getDescription();
+    }
 }

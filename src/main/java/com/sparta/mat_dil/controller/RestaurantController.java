@@ -1,14 +1,14 @@
 package com.sparta.mat_dil.controller;
 
-import com.sparta.mat_dil.dto.CommentRequestDto;
-import com.sparta.mat_dil.dto.CommentResponseDto;
-import com.sparta.mat_dil.dto.PasswordRequestDto;
-import com.sparta.mat_dil.dto.ResponseDataDto;
+import com.sparta.mat_dil.dto.*;
 import com.sparta.mat_dil.entity.Restaurant;
+import com.sparta.mat_dil.entity.User;
 import com.sparta.mat_dil.enums.ResponseStatus;
 import com.sparta.mat_dil.service.CommentService;
 import com.sparta.mat_dil.service.RestaurantService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +22,18 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
 
     private final CommentService commentService;
+
+    /**
+    * 음식점 등록
+    * @param requestDto 요청 객체
+    * @param userDetails 회원 정보
+    * @return 인증번호
+    **/
+//    @PostMapping
+//    public ResponseEntity<ResponseDataDto<RestaurantResponseDto>> createRestaurant(@Valid @RequestBody RestaurantRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+//        RestaurantResponseDto responseDto = restaurantService.createRestaurant(requestDto, userDetails.getUser());
+//        return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.RESTAURANT_CREATE_SUCCESS, responseDto));
+//    }
 
     //댓글 등록
 //    @PostMapping("/{restaurants_id}/comments")

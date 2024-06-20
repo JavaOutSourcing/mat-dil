@@ -84,6 +84,18 @@ public class User extends Timestamped{
         this.userStatus = UserStatus.ACTIVE;
     }
 
+    public User(Long id, String accountId, String password, String name, String email, String intro, String refreshToken, UserType userType, UserStatus userStatus) {
+        this.id = id;
+        this.accountId = accountId;
+        this.password = password;
+        this.name = name;
+        this.email = email;
+        this.intro = intro;
+        this.refreshToken = refreshToken;
+        this.userType = userType;
+        this.userStatus = userStatus;
+    }
+
     public void withdrawUser() {
         this.userStatus = UserStatus.DEACTIVATE;
     }

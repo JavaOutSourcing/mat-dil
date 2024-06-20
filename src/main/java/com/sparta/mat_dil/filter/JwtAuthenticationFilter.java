@@ -2,8 +2,12 @@ package com.sparta.mat_dil.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.mat_dil.dto.LoginRequestDto;
+import com.sparta.mat_dil.dto.ResponseMessageDto;
+import com.sparta.mat_dil.entity.User;
 import com.sparta.mat_dil.entity.UserType;
+import com.sparta.mat_dil.enums.ResponseStatus;
 import com.sparta.mat_dil.jwt.JwtUtil;
+import com.sparta.mat_dil.repository.UserRepository;
 import com.sparta.mat_dil.security.UserDetailsImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -17,12 +21,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import java.io.IOException;
 
+
 @Slf4j(topic = "로그인 및 JWT 생성")
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final JwtUtil jwtUtil;
+    private final UserRepository userRepository;
 
-    public JwtAuthenticationFilter(JwtUtil jwtUtil) {
+    public JwtAuthenticationFilter(JwtUtil jwtUtil, UserRepository userRepository) {
         this.jwtUtil = jwtUtil;
+        this.userRepository = userRepository;
         setFilterProcessesUrl("/users/login"); //UsernamePasswordAuthenticationFilter을 상속 받으면 사용할수잇음
     }
 
@@ -51,9 +58,22 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String username = ((UserDetailsImpl) authResult.getPrincipal()).getUsername();
         UserType userType = ((UserDetailsImpl) authResult.getPrincipal()).getUser().getUserType();
 
-        String token = jwtUtil.createToken(username, userType);
-        jwtUtil.addJwtToCookie(token, response);
-    }
+        String accessToken = jwtUtil.createAccessToken(username, userType);
+        String refreshToken = jwtUtil.createRefreshToken(username, userType);
+
+        User user = ((UserDetailsImpl) authResult.getPrincipal()).getUser();
+        user.refreshTokenReset(refreshToken);
+        userRepository.save(user);
+
+        jwtUtil.addJwtToCookie(accessToken, refreshToken, response);
+
+        // 로그인 성공 메시지
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(new ObjectMapper().writeValueAsString(new ResponseMessageDto(ResponseStatus.LOGIN_SUCCESS)));
+        response.getWriter().flush();
+        }
+
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {

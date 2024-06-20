@@ -1,7 +1,11 @@
 package com.sparta.mat_dil.dto;
 
 import com.sparta.mat_dil.enums.ResponseStatus;
+import lombok.Getter;
 
+import java.util.List;
+
+@Getter
 public class ResponseDataDto<T> {
     private int status;
     private String message;
@@ -12,4 +16,5 @@ public class ResponseDataDto<T> {
         this.message = responseStatus.getMessage();
         this.data = data;
     }
+
 }

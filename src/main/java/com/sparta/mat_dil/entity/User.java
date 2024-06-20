@@ -1,4 +1,5 @@
 package com.sparta.mat_dil.entity;
+import com.sparta.mat_dil.dto.UserRequestDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -74,4 +75,16 @@ public class User extends Timestamped{
         this.intro = intro.orElse(this.intro);
     }
 
+    public User(UserRequestDto requestDto) {
+        this.accountId = requestDto.getAccountId();
+        this.password = requestDto.getPassword();
+        this.name = requestDto.getName();
+        this.email = requestDto.getEmail();
+        this.userType = requestDto.getUserType();
+        this.userStatus = UserStatus.ACTIVE;
+    }
+
+    public void withdrawUser() {
+        this.userStatus = UserStatus.DEACTIVATE;
+    }
 }

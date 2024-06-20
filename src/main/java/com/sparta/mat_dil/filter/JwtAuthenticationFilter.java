@@ -41,7 +41,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
             return getAuthenticationManager().authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            requestDto.getName(),
+                            requestDto.getAccountId(),
                             requestDto.getPassword(),
                             null
                     )
@@ -55,11 +55,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         log.info("로그인 성공 및 JWT 생성");
-        String username = ((UserDetailsImpl) authResult.getPrincipal()).getUsername();
+        String accountId = ((UserDetailsImpl) authResult.getPrincipal()).getUsername();
         UserType userType = ((UserDetailsImpl) authResult.getPrincipal()).getUser().getUserType();
 
-        String accessToken = jwtUtil.createAccessToken(username, userType);
-        String refreshToken = jwtUtil.createRefreshToken(username, userType);
+        String accessToken = jwtUtil.createAccessToken(accountId, userType);
+        String refreshToken = jwtUtil.createRefreshToken(accountId, userType);
 
         User user = ((UserDetailsImpl) authResult.getPrincipal()).getUser();
         user.refreshTokenReset(refreshToken);

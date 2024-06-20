@@ -79,13 +79,13 @@ public class JwtUtil {
     }
 
     // 액세스 토큰 생성
-    public String createAccessToken(String name, UserType userType) {
-        return createToken(name, TOKEN_TIME, userType);
+    public String createAccessToken(String accountId, UserType userType) {
+        return createToken(accountId, TOKEN_TIME, userType);
     }
 
     // 리프레시 토큰 생성
-    public String createRefreshToken(String name, UserType userType) {
-        return createToken(name, REFRESH_TOKEN_TIME, userType);
+    public String createRefreshToken(String accountId, UserType userType) {
+        return createToken(accountId, REFRESH_TOKEN_TIME, userType);
     }
 
     // JWT Cookie 에 저장
@@ -208,10 +208,10 @@ public class JwtUtil {
     // 리프레시 토큰을 사용하여 새로운 액세스 토큰 발급
     public String refreshAccessToken(String refreshToken) {
         if (validateRefreshToken(refreshToken)) {
-            String username = getUsernameFromRefreshToken(refreshToken);
-            User user=userRepository.findByUsername(username).get();
+            String accountId = getUsernameFromRefreshToken(refreshToken);
+            User user=userRepository.findByAccountId(accountId).get();
             // 여기에서 필요한 경우 사용자 역할 정보를 가져올 수 있다.
-            return createAccessToken(username, user.getUserType()); // 사용자 역할이 필요하면 두 번째 인자에 역할을 전달
+            return createAccessToken(accountId, user.getUserType()); // 사용자 역할이 필요하면 두 번째 인자에 역할을 전달
         }
         return null;
     }

@@ -10,6 +10,7 @@ import com.sparta.mat_dil.enums.ErrorType;
 import com.sparta.mat_dil.exception.CustomException;
 import com.sparta.mat_dil.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +21,7 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
-//    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
 
     //회원가입
@@ -33,8 +34,8 @@ public class UserService {
         validateUserEmail(requestDto.getEmail());
 
         //비밀번호 암호화
-//        String password = passwordEncoder.encode(requestDto.getPassword());
-
+        String password = passwordEncoder.encode(requestDto.getPassword());
+        requestDto.setPassword(password);
         userRepository.save(new User(requestDto));
 
     }

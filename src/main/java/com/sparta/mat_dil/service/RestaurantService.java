@@ -43,16 +43,35 @@ public class RestaurantService {
     }
 
 
-    /** [getNewsfeed()] 음식점 조회
+    /** [getRestaurantList()] 전체 음식점 조회
     * @param page 페이지 개수
     * @return 음식점 정보
     **/
-    public Page<RestaurantResponseDto> getNewsfeed(int page) {
+    public Page<RestaurantResponseDto> getRestaurantList(int page) {
         //음식점 등록 순으로 정렬
         Sort.Direction direction = Sort.Direction.DESC;
         Sort sort = Sort.by(direction, "createdAt");
         Pageable pageable = PageRequest.of(page, 5, sort);
 
         return new PageImpl<>(restaurantRepository.findAllByUser_UserStatus(pageable).stream().map(RestaurantResponseDto::new).collect(Collectors.toList()));
+    }
+
+    /** [getRestaurant()] 특정 음식점 조회
+     * @param id 페이지 개수
+     * @return 음식점 정보
+     **/
+    public RestaurantResponseDto getRestaurant(Long id) {
+        //음식점 확인 로직
+        Restaurant restaurantInfo = this.findById(id);
+
+        return new RestaurantResponseDto(restaurantInfo);
+    }
+
+
+    //음식점 존재 여부 확인
+    public Restaurant findById(Long id){
+        return restaurantRepository.findById(id).orElseThrow(
+                () -> new CustomException(ErrorType.NOT_FOUND_RESTAURANT)
+        );
     }
 }

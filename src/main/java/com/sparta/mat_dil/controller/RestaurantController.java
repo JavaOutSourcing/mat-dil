@@ -37,14 +37,26 @@ public class RestaurantController {
 
 
     /**
-    * 음식점 조회
+    * 전체 음식점 조회
     * @param page 요청 객체
     * @return status.code, message
     **/
     @GetMapping
     public Page<RestaurantResponseDto> getRestaurantList(@RequestParam(value = "page") int page) {
-        return restaurantService.getNewsfeed(page - 1);
+        return restaurantService.getRestaurantList(page - 1);
     }
+
+    /**
+    * 특정 음식점 조회
+    * @param id 음식점 id
+    * @return status.code, message
+    */
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseDataDto<RestaurantResponseDto>> getRestaurant(@PathVariable Long id) {
+        RestaurantResponseDto responseDto = restaurantService.getRestaurant(id);
+        return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.RESTAURANT_CHECK_SUCCESS, responseDto));
+    }
+
 
     //댓글 등록
 //    @PostMapping("/{restaurants_id}/comments")

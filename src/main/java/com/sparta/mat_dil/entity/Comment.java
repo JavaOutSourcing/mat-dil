@@ -1,6 +1,5 @@
 package com.sparta.mat_dil.entity;
 
-import com.sparta.mat_dil.dto.CommentRequestDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,16 +1,16 @@
 package com.sparta.mat_dil.controller;
 
-import com.sparta.mat_dil.dto.CommentRequestDto;
 import com.sparta.mat_dil.dto.CommentResponseDto;
-import com.sparta.mat_dil.dto.PasswordRequestDto;
 import com.sparta.mat_dil.dto.ResponseDataDto;
-import com.sparta.mat_dil.entity.Restaurant;
 import com.sparta.mat_dil.enums.ResponseStatus;
 import com.sparta.mat_dil.service.CommentService;
 import com.sparta.mat_dil.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 

@@ -86,6 +86,22 @@ public class RestaurantService {
     }
 
 
+
+    /** [deleteRestaurant()] 특정 음식점 수정
+     * @param id 음식점 정보
+     * @return 음식점 정보
+     **/
+    @Transactional
+    public void deleteRestaurant(Long id, User loginUser) {
+        //음식점 확인 로직
+        Restaurant restaurantInfo = this.findById(id);
+
+        //판매자가 아니고, 게시물을 작성한 판매자가 아닌경우 예외처리
+        checkRestaurantSupplier(restaurantInfo, loginUser);
+
+        restaurantRepository.delete(restaurantInfo);
+    }
+
     //음식점 존재 여부 확인
     public Restaurant findById(Long id){
         return restaurantRepository.findById(id).orElseThrow(

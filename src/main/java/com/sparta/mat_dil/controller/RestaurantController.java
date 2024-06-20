@@ -72,6 +72,19 @@ public class RestaurantController {
 //    }
 
 
+    /**
+    * 특정 음식점 삭제
+    * @param id 음식점 id
+    * @param userDetails 회원 정보
+    * @return status.code, message
+    **/
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<ResponseMessageDto> deleteRestaurant(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+//        restaurantService.deleteRestaurant(id, userDetails.getUser());
+//        return ResponseEntity.ok(new ResponseMessageDto(ResponseStatus.RESTAURANT_DELETE_SUCCESS));
+//    }
+
+
     //댓글 등록
 //    @PostMapping("/{restaurants_id}/comments")
 //    public ResponseEntity<ResponseDataDto<CommentResponseDto>> createComment(@PathVariable Long restaurants_id, @RequestBody CommentRequestDto requestDto,

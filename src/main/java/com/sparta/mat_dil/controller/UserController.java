@@ -26,7 +26,7 @@ public class UserController {
     public ResponseEntity<ResponseMessageDto> createUser(@Valid @RequestBody UserRequestDto requestDto){
 
         userService.createUser(requestDto);
-        return ResponseEntity.ok(new ResponseMessageDto(ResponseStatus.SIGN_UP_SUCCESS));
+        return ResponseEntity.ok(new ResponseMessageDto(ResponseStatus.LOGIN_SUCCESS));
     }
 
     //회원 탈퇴

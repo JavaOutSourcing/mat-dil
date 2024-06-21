@@ -1,16 +1,16 @@
 package com.sparta.mat_dil.controller;
 
-import com.sparta.mat_dil.dto.*;
+import com.sparta.mat_dil.dto.ProfileRequestDto;
+import com.sparta.mat_dil.dto.ProfileResponseDto;
+import com.sparta.mat_dil.dto.ResponseMessageDto;
+import com.sparta.mat_dil.dto.UserRequestDto;
 import com.sparta.mat_dil.enums.ResponseStatus;
+import com.sparta.mat_dil.security.UserDetailsImpl;
 import com.sparta.mat_dil.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -39,6 +39,11 @@ public class UserController {
 //    }
 
 
+    @PostMapping("/logout")
+    public ResponseEntity<ResponseMessageDto> logout(@AuthenticationPrincipal UserDetailsImpl userDetails){
+            userService.logout(userDetails.getUser());
+        return ResponseEntity.ok(new ResponseMessageDto(ResponseStatus.LOGOUT_SUCCESS));
+    }
 
     @GetMapping("/{userId}")
 //    @GetMapping

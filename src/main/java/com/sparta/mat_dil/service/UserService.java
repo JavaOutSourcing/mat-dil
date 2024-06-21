@@ -1,26 +1,18 @@
 package com.sparta.mat_dil.service;
 
 import com.sparta.mat_dil.dto.PasswordRequestDto;
+import com.sparta.mat_dil.dto.ProfileRequestDto;
+import com.sparta.mat_dil.dto.ProfileResponseDto;
 import com.sparta.mat_dil.dto.UserRequestDto;
 import com.sparta.mat_dil.entity.User;
 import com.sparta.mat_dil.entity.UserStatus;
-import com.sparta.mat_dil.entity.UserType;
-import com.sparta.mat_dil.repository.UserRepository;
-import com.sparta.mat_dil.dto.ProfileRequestDto;
-import com.sparta.mat_dil.dto.ProfileResponseDto;
-import com.sparta.mat_dil.entity.User;
 import com.sparta.mat_dil.enums.ErrorType;
 import com.sparta.mat_dil.exception.CustomException;
 import com.sparta.mat_dil.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Optional;
 
@@ -29,7 +21,7 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
-//    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
 
     //회원가입
@@ -42,8 +34,8 @@ public class UserService {
         validateUserEmail(requestDto.getEmail());
 
         //비밀번호 암호화
-//        String password = passwordEncoder.encode(requestDto.getPassword());
-
+        String password = passwordEncoder.encode(requestDto.getPassword());
+        requestDto.setPassword(password);
         userRepository.save(new User(requestDto));
 
     }
@@ -154,5 +146,9 @@ public class UserService {
         );
 
         return new ProfileResponseDto(user);
+    }
+
+    public void logout(User user) {
+        user.logout();
     }
 }

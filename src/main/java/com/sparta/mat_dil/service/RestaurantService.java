@@ -17,6 +17,7 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -129,13 +130,57 @@ public class RestaurantService {
         //해당 음식점이 없는 경우
         Restaurant restaurantById= restaurantRepository.findById(restaurantsId).orElseThrow(
                 ()-> new CustomException(ErrorType.NOT_FOUND_RESTAURANT));
+
+        //등록을 시도하는 점주 정보와 해당 음식점 점주 정보가 같지 않는 경우
         if(!loginUser.getAccountId().equals(restaurantById.getUser().getAccountId())){
             throw new CustomException(ErrorType.NO_ATUTHENTIFICATION);
         }
-        //등록을 시도하는 점주 정보와 해당 음식점 점주 정보가 같지 않는 경우
+
         Food food=new Food(restaurantById, foodRequestDto);
         foodRepository.save(food);
         return new FoodResponseDto(food);
     }
 
+    public Page<FoodResponseDto> getFoodList(int page) {
+        //음식 등록 순으로 정렬
+        Sort.Direction direction = Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, "createdAt");
+        Pageable pageable = PageRequest.of(page, 5, sort);
+        return new PageImpl<>(foodRepository.findAll(pageable).stream().map(FoodResponseDto::new).collect(Collectors.toList()));
+    }
+
+    public FoodResponseDto getFood(Long restaurantsId, Long foodId) {
+       Food food=foodRepository.findByIdAndRestaurant_Id(foodId, restaurantsId).orElseThrow(()->
+               new CustomException(ErrorType.NOT_FOUND_FOOD));
+
+       return new FoodResponseDto(food);
+    }
+
+    public FoodResponseDto updateFood(Long restaurantId, Long foodId, FoodRequestDto requestDto, User loginUser) {
+        //해당 음식점이 없는 경우
+        Restaurant restaurantById= restaurantRepository.findById(restaurantId).orElseThrow(
+                ()-> new CustomException(ErrorType.NOT_FOUND_RESTAURANT));
+        //수정하려는 음식이 없는 경우
+        Food food=foodRepository.findById(foodId).orElseThrow(()->
+                new CustomException(ErrorType.NOT_FOUND_FOOD));
+        //수정을 시도하는 점주 정보와 해당 음식점 점주 정보가 같지 않는 경우
+        if(!loginUser.getAccountId().equals(restaurantById.getUser().getAccountId())){
+            throw new CustomException(ErrorType.NO_ATUTHENTIFICATION);
+        }
+        food.update(requestDto);
+        return new FoodResponseDto(food);
+    }
+
+    public void deleteFood(Long restaurantId, Long foodId, User loginUser) {
+        //해당 음식점이 없는 경우
+        Restaurant restaurantById= restaurantRepository.findById(restaurantId).orElseThrow(
+                ()-> new CustomException(ErrorType.NOT_FOUND_RESTAURANT));
+        //수정하려는 음식이 없는 경우
+        Food food=foodRepository.findById(foodId).orElseThrow(()->
+                new CustomException(ErrorType.NOT_FOUND_FOOD));
+
+        checkRestaurantSupplier(restaurantById, loginUser);
+
+        foodRepository.delete(food);
+    }
 }

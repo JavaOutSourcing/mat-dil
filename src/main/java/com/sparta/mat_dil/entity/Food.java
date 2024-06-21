@@ -1,6 +1,7 @@
 package com.sparta.mat_dil.entity;
 
 import com.sparta.mat_dil.dto.FoodRequestDto;
+import com.sparta.mat_dil.dto.RestaurantRequestDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,6 +34,11 @@ public class Food extends Timestamped {
         this.price=foodRequestDto.getPrice();
         this.description= foodRequestDto.getDescription();
         this.restaurant=restaurant;
+    }
+    public void update(FoodRequestDto requestDto) {
+        this.foodName = requestDto.getFoodname();
+        this.price=requestDto.getPrice();
+        this.description = requestDto.getDescription();
     }
 }
 

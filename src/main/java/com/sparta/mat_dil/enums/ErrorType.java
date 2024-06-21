@@ -22,6 +22,9 @@ public enum ErrorType {
     // restaurant,
     NOT_FOUND_RESTAURANT(HttpStatus.NOT_FOUND, "존재하지 않는 음식점입니다."),
 
+    //food
+    NOT_FOUND_FOOD(HttpStatus.NOT_FOUND, "존재하지 않는 음식입니다."),
+
     // comment,
     NOT_FOUND_COMMENT(HttpStatus.NOT_FOUND, "존재하지 않는 댓글입니다."),
     NO_ATUTHENTIFICATION(HttpStatus.UNAUTHORIZED, "권한이 없습니다."),

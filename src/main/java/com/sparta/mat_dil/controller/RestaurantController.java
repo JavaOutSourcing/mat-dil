@@ -131,10 +131,37 @@ public class RestaurantController {
         return ResponseEntity.ok("댓글이 삭제되었습니다.");
     }
 
+    //음식 등록
     @PostMapping("/{restaurants_id}/foods")
     public ResponseEntity<ResponseDataDto<FoodResponseDto>> saleFood(@PathVariable Long restaurants_id, @RequestBody FoodRequestDto foodRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
         FoodResponseDto responseDto= restaurantService.saleFood(restaurants_id, foodRequestDto, userDetails.getUser());
         return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.FOOD_CREATE_SUCCESS, responseDto));
     }
 
+   //전체 음식 조회
+    @GetMapping("/{restaurants_id}/foods")
+    public Page<FoodResponseDto> getFoodList(@RequestParam(value = "page") int page) {
+        return restaurantService.getFoodList(page - 1);
+    }
+
+    //특정 음식 조회
+    @GetMapping("/{restaurants_id}/foods/{food_id}")
+    public ResponseEntity<ResponseDataDto<FoodResponseDto>> getFood(@PathVariable Long restaurants_id, @PathVariable Long food_id){
+        FoodResponseDto responseDto= restaurantService.getFood(restaurants_id, food_id);
+        return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.FOOD_CHECK_SUCCESS, responseDto));
+    }
+
+    //음식 수정
+    @PutMapping("/{restaurant_id}/foods/{food_id}")
+    public ResponseEntity<ResponseDataDto<FoodResponseDto>> updateFood(@PathVariable Long restaurant_id, @PathVariable Long food_id, @RequestBody FoodRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        FoodResponseDto responseDto=restaurantService.updateFood(restaurant_id, food_id, requestDto, userDetails.getUser());
+        return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.RESTAURANT_UPDATE_SUCCESS, responseDto));
+    }
+
+    //음식 삭제
+    @DeleteMapping("/{restaurant_id}/foods/{food_id}")
+    public ResponseEntity<ResponseMessageDto> deleteFood(@PathVariable Long restaurant_id, @PathVariable Long food_id, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        restaurantService.deleteFood(restaurant_id, food_id, userDetails.getUser());
+        return ResponseEntity.ok(new ResponseMessageDto(ResponseStatus.FOOD_DELETE_SUCCESS));
+    }
 }

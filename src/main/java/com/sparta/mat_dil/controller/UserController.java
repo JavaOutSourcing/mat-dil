@@ -35,7 +35,7 @@ public class UserController {
         return ResponseEntity.ok(new ResponseMessageDto(ResponseStatus.DEACTIVATE_USER_SUCCESS));
     }
 
-
+    //로그아웃
     @PostMapping("/logout")
     public ResponseEntity<ResponseMessageDto> logout(@AuthenticationPrincipal UserDetailsImpl userDetails, HttpServletResponse res,
                                                      HttpServletRequest req){
@@ -44,11 +44,13 @@ public class UserController {
         return ResponseEntity.ok(new ResponseMessageDto(ResponseStatus.LOGOUT_SUCCESS));
     }
 
+    //회원 정보 조회
     @GetMapping
     public ResponseEntity<ResponseDataDto<ProfileResponseDto>> getProfile(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.PROFILE_CHECK_SUCCESS, userService.getProfile(userDetails.getUser().getId())));
     }
 
+    //회원 정보 수정
     @PutMapping
     public ResponseEntity<ResponseMessageDto> profile1Update(
             @AuthenticationPrincipal UserDetailsImpl userDetails,

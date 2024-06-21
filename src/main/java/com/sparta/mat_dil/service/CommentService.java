@@ -9,6 +9,7 @@ import com.sparta.mat_dil.entity.User;
 import com.sparta.mat_dil.repository.CommentRepository;
 import com.sparta.mat_dil.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +20,7 @@ import java.util.List;
 public class CommentService {
     private final CommentRepository commentRepository;
     private final RestaurantRepository restaurantRepository;
-//    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     // 댓글 등록
     @Transactional
@@ -90,9 +91,9 @@ public class CommentService {
         checkUserComment(user, comment);
 
         // 비밀번호 검증
-//        if (!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())) {
-//            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
-//        }
+        if (!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
         commentRepository.delete(comment);
     }
 

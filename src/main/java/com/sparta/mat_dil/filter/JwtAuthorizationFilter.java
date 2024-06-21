@@ -1,5 +1,7 @@
 package com.sparta.mat_dil.filter;
 
+import com.sparta.mat_dil.enums.ErrorType;
+import com.sparta.mat_dil.exception.CustomException;
 import com.sparta.mat_dil.jwt.JwtUtil;
 import com.sparta.mat_dil.security.UserDetailsServiceImpl;
 import io.jsonwebtoken.Claims;
@@ -40,19 +42,23 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             tokenValue = jwtUtil.substringToken(tokenValue);
             log.info(tokenValue);
 
+
             if (!jwtUtil.validateToken(tokenValue)) {
                 log.error("Token Error");
                 return;
             }
 
             Claims info = jwtUtil.getUserInfoFromToken(tokenValue);
-             //log.info(tokenValue);
+
             try {
                 setAuthentication(info.getSubject());
             } catch (Exception e) {
                 log.error(e.getMessage());
-                return;
+                throw new CustomException(ErrorType.NOT_FOUND_AUTHENTICATION_INFO);
             }
+
+        } else {
+            throw new CustomException(ErrorType.REQUIRES_LOGIN);
         }
 
         filterChain.doFilter(req, res);

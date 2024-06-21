@@ -105,30 +105,30 @@ public class RestaurantController {
 
     //단일 댓글 조회
     @GetMapping("/{restaurantId}/comments/{commentId}")
-    public ResponseEntity<CommentResponseDto> getComment(@PathVariable Long restaurantId, @PathVariable Long commentId){
+    public ResponseEntity<ResponseDataDto<CommentResponseDto>> getComment(@PathVariable Long restaurantId, @PathVariable Long commentId){
         CommentResponseDto responseDto = commentService.getComment(restaurantId, commentId);
 
-        return ResponseEntity.ok(responseDto);
+        return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.COMMENT_CHECK_SUCCESS, responseDto));
     }
 
 //    //댓글 수정
     @PutMapping("/{restaurantId}/comments/{commentId}")
-    public ResponseEntity<CommentResponseDto> updateComment(@PathVariable Long restaurantId, @PathVariable Long commentId,
+    public ResponseEntity<ResponseDataDto<CommentResponseDto>> updateComment(@PathVariable Long restaurantId, @PathVariable Long commentId,
                                                             @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
 
         CommentResponseDto responseDto = commentService.updateComment(restaurantId, commentId, userDetails.getUser(), requestDto);
 
-        return ResponseEntity.ok(responseDto);
+        return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.COMMENT_UPDATE_SUCCESS, responseDto));
     }
 
     //댓글 삭제
     @DeleteMapping("/{restaurantId}/comments/{commentId}")
-    public ResponseEntity<String> deleteComment(@PathVariable Long restaurantId, @PathVariable Long commentId,
+    public ResponseEntity<ResponseMessageDto> deleteComment(@PathVariable Long restaurantId, @PathVariable Long commentId,
                                                 @RequestBody PasswordRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
 
         commentService.deleteComment(restaurantId, commentId, userDetails.getUser(), requestDto);
 
-        return ResponseEntity.ok("댓글이 삭제되었습니다.");
+        return ResponseEntity.ok(new ResponseMessageDto(ResponseStatus.COMMENT_DELETE_SUCCESS));
     }
 
     //음식 등록

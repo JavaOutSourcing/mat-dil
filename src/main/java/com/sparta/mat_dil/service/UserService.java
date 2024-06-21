@@ -8,7 +8,11 @@ import com.sparta.mat_dil.entity.User;
 import com.sparta.mat_dil.entity.UserStatus;
 import com.sparta.mat_dil.enums.ErrorType;
 import com.sparta.mat_dil.exception.CustomException;
+import com.sparta.mat_dil.jwt.JwtUtil;
 import com.sparta.mat_dil.repository.UserRepository;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -61,7 +65,7 @@ public class UserService {
     private void validateUserEmail(String email) {
         Optional<User> findUser = userRepository.findByEmail(email);
 
-        if(findUser.isPresent()){
+        if (findUser.isPresent()) {
             throw new IllegalArgumentException("중복된 유저 email 입니다.");
         }
     }
@@ -70,13 +74,13 @@ public class UserService {
     private void validateUserId(String id) {
         Optional<User> findUser = userRepository.findByAccountId(id);
 
-        if(findUser.isPresent()){
+        if (findUser.isPresent()) {
             throw new IllegalArgumentException("중복된 유저 id 입니다.");
         }
     }
 
-    private void checkUserType(UserStatus userStatus){
-        if(userStatus.equals(UserStatus.DEACTIVATE)){
+    private void checkUserType(UserStatus userStatus) {
+        if (userStatus.equals(UserStatus.DEACTIVATE)) {
             throw new IllegalArgumentException("이미 탈퇴한 회원입니다.");
         }
     }
@@ -143,7 +147,18 @@ public class UserService {
         return new ProfileResponseDto(user);
     }
 
-    public void logout(User user) {
+    public void logout(User user, HttpServletResponse res, HttpServletRequest req) {
         user.logout();
+        Cookie[] cookies = req.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                cookie.setValue(null);
+                cookie.setPath("/");
+                cookie.setMaxAge(0);
+                res.addCookie(cookie);
+            }
+        }
+
+
     }
 }

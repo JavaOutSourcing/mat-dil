@@ -22,7 +22,6 @@ public enum ErrorType {
 
     // restaurant,
     NOT_FOUND_RESTAURANT(HttpStatus.NOT_FOUND, "존재하지 않는 음식점입니다."),
-    NOT_FOUND_FOOD(HttpStatus.NOT_FOUND, "존재하지 않는 메뉴입니다."),
 
     //food
     NOT_FOUND_FOOD(HttpStatus.NOT_FOUND, "존재하지 않는 음식입니다."),

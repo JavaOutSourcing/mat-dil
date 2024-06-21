@@ -1,17 +1,11 @@
 package com.sparta.mat_dil.controller;
 
-import com.sparta.mat_dil.dto.*;
-import com.sparta.mat_dil.entity.Restaurant;
-import com.sparta.mat_dil.entity.User;
 import com.sparta.mat_dil.dto.CommentResponseDto;
 import com.sparta.mat_dil.dto.ResponseDataDto;
-import com.sparta.mat_dil.dto.*;
-import com.sparta.mat_dil.entity.Restaurant;
-import com.sparta.mat_dil.entity.User;
+import com.sparta.mat_dil.dto.RestaurantResponseDto;
 import com.sparta.mat_dil.enums.ResponseStatus;
 import com.sparta.mat_dil.service.CommentService;
 import com.sparta.mat_dil.service.RestaurantService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;

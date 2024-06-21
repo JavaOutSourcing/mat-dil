@@ -1,5 +1,6 @@
 package com.sparta.mat_dil.config;
 
+import com.sparta.mat_dil.filter.JwtAuthenticationEntryPoint;
 import com.sparta.mat_dil.filter.JwtAuthenticationFilter;
 import com.sparta.mat_dil.filter.JwtAuthorizationFilter;
 import com.sparta.mat_dil.filter.JwtExceptionFilter;
@@ -30,6 +31,7 @@ public class WebSecurityConfig {
     private final UserDetailsServiceImpl userDetailsService;
     private final AuthenticationConfiguration authenticationConfiguration;
     private final UserRepository userRepository;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Bean //Bean 수동 등록
     public PasswordEncoder passwordEncoder() {
@@ -81,6 +83,7 @@ public class WebSecurityConfig {
         );
 
         // 필터 관리
+        http.exceptionHandling((exception) -> exception.authenticationEntryPoint(jwtAuthenticationEntryPoint));
         http.addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(jwtExceptionFilter(), JwtAuthorizationFilter.class);

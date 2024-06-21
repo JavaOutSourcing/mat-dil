@@ -17,19 +17,42 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping
-    public ResponseEntity<ResponseMessageDto> getProfile(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        userService.getProfile(userDetails.getUser().getId());
-        return ResponseEntity.ok(new ResponseMessageDto(ResponseStatus.PROFILE_CHECK_SUCCESS));
+    //회원 가입
+    @PostMapping
+    public ResponseEntity<ResponseMessageDto> createUser(@Valid @RequestBody UserRequestDto requestDto) {
+
+        userService.createUser(requestDto);
+        return ResponseEntity.ok(new ResponseMessageDto(ResponseStatus.LOGIN_SUCCESS));
     }
-//    @PatchMapping
+
+    //회원 탈퇴
     @PatchMapping
+    public ResponseEntity<ResponseMessageDto> withdrawUser(@Valid @RequestBody PasswordRequestDto requestDTO,
+        @AuthenticationPrincipal UserDetailsImpl userDetails){
+        userService.withdrawUser(requestDTO, userDetails.getUser());
+        return ResponseEntity.ok(new ResponseMessageDto(ResponseStatus.DEACTIVATE_USER_SUCCESS));
+    }
+
+
+    @PostMapping("/logout")
+    public ResponseEntity<ResponseMessageDto> logout(@AuthenticationPrincipal UserDetailsImpl userDetails){
+            userService.logout(userDetails.getUser());
+        return ResponseEntity.ok(new ResponseMessageDto(ResponseStatus.LOGOUT_SUCCESS));
+    }
+
+    @GetMapping
+    public ResponseEntity<ResponseDataDto<ProfileResponseDto>> getProfile(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.PROFILE_CHECK_SUCCESS, userService.getProfile(userDetails.getUser().getId())));
+    }
+
+    @PutMapping
     public ResponseEntity<ResponseMessageDto> profile1Update(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @RequestBody ProfileRequestDto requestDto) {
         userService.update(userDetails.getUser().getId(), requestDto);
         return ResponseEntity.ok(new ResponseMessageDto(ResponseStatus.PROFILE_UPDATE_SUCCESS));
     }
+
 
 
 }

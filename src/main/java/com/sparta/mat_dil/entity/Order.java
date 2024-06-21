@@ -1,7 +1,5 @@
 package com.sparta.mat_dil.entity;
 
-
-import com.sparta.mat_dil.dto.OrderDetailData;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -2,6 +2,7 @@ package com.sparta.mat_dil.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,4 +26,15 @@ public class Comment extends Timestamped {
 
     @Column(nullable = false)
     private String description;
+
+    @Builder
+    public Comment(User user, Restaurant restaurant, String description) {
+        this.user = user;
+        this.restaurant = restaurant;
+        this.description = description;
+    }
+
+    public void update(String description){
+        this.description = description;
+    }
 }

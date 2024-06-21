@@ -14,4 +14,5 @@ public class ResponseDataDto<T> {
         this.message = responseStatus.getMessage();
         this.data = data;
     }
+
 }

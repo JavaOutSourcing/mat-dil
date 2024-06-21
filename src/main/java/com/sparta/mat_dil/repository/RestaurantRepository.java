@@ -10,5 +10,5 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
-    List<Restaurant> findAllByUser_UserStatus(Pageable pageable);
+    Page<Restaurant> findAll(Pageable pageable);
 }

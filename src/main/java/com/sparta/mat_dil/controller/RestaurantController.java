@@ -34,7 +34,7 @@ public class RestaurantController {
 //        return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.RESTAURANT_CREATE_SUCCESS, responseDto));
 //    }
 
-    
+
     /**
      * 전체 음식점 조회
      * @param page 요청 객체

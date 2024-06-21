@@ -1,14 +1,15 @@
 package com.sparta.mat_dil.controller;
 
-import com.sparta.mat_dil.dto.CommentResponseDto;
-import com.sparta.mat_dil.dto.ResponseDataDto;
-import com.sparta.mat_dil.dto.RestaurantResponseDto;
+import com.sparta.mat_dil.dto.*;
 import com.sparta.mat_dil.enums.ResponseStatus;
+import com.sparta.mat_dil.security.UserDetailsImpl;
 import com.sparta.mat_dil.service.CommentService;
 import com.sparta.mat_dil.service.RestaurantService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,11 +29,11 @@ public class RestaurantController {
      * @param userDetails 회원 정보
      * @return status.code , message
      **/
-//    @PostMapping
-//    public ResponseEntity<ResponseDataDto<RestaurantResponseDto>> createRestaurant(@Valid @RequestBody RestaurantRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        RestaurantResponseDto responseDto = restaurantService.createRestaurant(requestDto, userDetails.getUser());
-//        return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.RESTAURANT_CREATE_SUCCESS, responseDto));
-//    }
+    @PostMapping
+    public ResponseEntity<ResponseDataDto<RestaurantResponseDto>> createRestaurant(@Valid @RequestBody RestaurantRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        RestaurantResponseDto responseDto = restaurantService.createRestaurant(requestDto, userDetails.getUser());
+        return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.RESTAURANT_CREATE_SUCCESS, responseDto));
+    }
 
 
     /**
@@ -58,30 +59,30 @@ public class RestaurantController {
     }
 
 
-//     /**
-//     * 특정 음식점 수정
-//     * @param id 음식점 id
-//     * @param userDetails 회원 정보
-//     * @return status.code, message
-//     **/
-//    @PutMapping("/{id}")
-//    public ResponseEntity<ResponseDataDto<RestaurantResponseDto>> updateRestaurant(@PathVariable Long id, @RequestBody RestaurantRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        RestaurantResponseDto responseDto = restaurantService.updateRestaurant(id, requestDto, userDetails.getUser());
-//        return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.RESTAURANT_UPDATE_SUCCESS, responseDto));
-//    }
+     /**
+     * 특정 음식점 수정
+     * @param id 음식점 id
+     * @param userDetails 회원 정보
+     * @return status.code, message
+     **/
+    @PutMapping("/{id}")
+    public ResponseEntity<ResponseDataDto<RestaurantResponseDto>> updateRestaurant(@PathVariable Long id, @RequestBody RestaurantRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        RestaurantResponseDto responseDto = restaurantService.updateRestaurant(id, requestDto, userDetails.getUser());
+        return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.RESTAURANT_UPDATE_SUCCESS, responseDto));
+    }
 
 
-//    /**
-//     * 특정 음식점 삭제
-//     * @param id 음식점 id
-//     * @param userDetails 회원 정보
-//     * @return status.code, message
-//     **/
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<ResponseMessageDto> deleteRestaurant(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        restaurantService.deleteRestaurant(id, userDetails.getUser());
-//        return ResponseEntity.ok(new ResponseMessageDto(ResponseStatus.RESTAURANT_DELETE_SUCCESS));
-//    }
+    /**
+     * 특정 음식점 삭제
+     * @param id 음식점 id
+     * @param userDetails 회원 정보
+     * @return status.code, message
+     **/
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResponseMessageDto> deleteRestaurant(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        restaurantService.deleteRestaurant(id, userDetails.getUser());
+        return ResponseEntity.ok(new ResponseMessageDto(ResponseStatus.RESTAURANT_DELETE_SUCCESS));
+    }
 
 
 

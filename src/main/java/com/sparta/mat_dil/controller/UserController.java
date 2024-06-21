@@ -19,10 +19,9 @@ public class UserController {
 
     private final UserService userService;
 
-
     //회원 가입
     @PostMapping
-    public ResponseEntity<ResponseMessageDto> createUser(@Valid @RequestBody UserRequestDto requestDto){
+    public ResponseEntity<ResponseMessageDto> createUser(@Valid @RequestBody UserRequestDto requestDto) {
 
         userService.createUser(requestDto);
         return ResponseEntity.ok(new ResponseMessageDto(ResponseStatus.SIGN_UP_SUCCESS));
@@ -32,7 +31,6 @@ public class UserController {
     @PatchMapping
     public ResponseEntity<ResponseMessageDto> withdrawUser(@Valid @RequestBody PasswordRequestDto requestDTO,
         @AuthenticationPrincipal UserDetailsImpl userDetails){
-
         userService.withdrawUser(requestDTO, userDetails.getUser());
         return ResponseEntity.ok(new ResponseMessageDto(ResponseStatus.DEACTIVATE_USER_SUCCESS));
     }
@@ -46,24 +44,19 @@ public class UserController {
         return ResponseEntity.ok(new ResponseMessageDto(ResponseStatus.LOGOUT_SUCCESS));
     }
 
-    @GetMapping("/{userId}")
-//    @GetMapping
-    public ResponseEntity<ProfileResponseDto> getProfile(@PathVariable Long userId) {
-//            @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return ResponseEntity.ok().body(userService.getProfile(userId));
-//        return ResponseEntity.ok().body(userService.getProfile(userDetails.getUser().getId()));
+    @GetMapping
+    public ResponseEntity<ResponseDataDto<ProfileResponseDto>> getProfile(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.PROFILE_CHECK_SUCCESS, userService.getProfile(userDetails.getUser().getId())));
     }
 
-//    @PatchMapping
-    @PatchMapping("/{userId}")
-    public ResponseEntity<ProfileResponseDto> profileUpdate(
-//            @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @PathVariable Long userId,
+    @PutMapping
+    public ResponseEntity<ResponseMessageDto> profile1Update(
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
             @RequestBody ProfileRequestDto requestDto) {
-
-//        return ResponseEntity.ok().body(userService.update(userDetails.getUser().getId(), requestDto));
-        return ResponseEntity.ok().body(userService.update(userId, requestDto));
+        userService.update(userDetails.getUser().getId(), requestDto);
+        return ResponseEntity.ok(new ResponseMessageDto(ResponseStatus.PROFILE_UPDATE_SUCCESS));
     }
+
 
 
 }

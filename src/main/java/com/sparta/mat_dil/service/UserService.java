@@ -62,6 +62,7 @@ public class UserService {
 
     }
 
+    //동일 이메일 검증
     private void validateUserEmail(String email) {
         Optional<User> findUser = userRepository.findByEmail(email);
 
@@ -70,6 +71,7 @@ public class UserService {
         }
     }
 
+    //동일 아이디 검증
     private void validateUserId(String id) {
         Optional<User> findUser = userRepository.findByAccountId(id);
 

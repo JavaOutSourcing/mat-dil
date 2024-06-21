@@ -1,5 +1,6 @@
 package com.sparta.mat_dil.entity;
 
+import com.sparta.mat_dil.dto.FoodRequestDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "food")
 public class Food extends Timestamped {
     @Id
@@ -27,4 +27,13 @@ public class Food extends Timestamped {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
+
+    public Food(Restaurant restaurant, FoodRequestDto foodRequestDto){
+        this.foodName=foodRequestDto.getFoodname();
+        this.price=foodRequestDto.getPrice();
+        this.description= foodRequestDto.getDescription();
+        this.restaurant=restaurant;
+    }
 }
+
+

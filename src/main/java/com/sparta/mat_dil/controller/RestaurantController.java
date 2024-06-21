@@ -131,4 +131,10 @@ public class RestaurantController {
         return ResponseEntity.ok("댓글이 삭제되었습니다.");
     }
 
+    @PostMapping("/{restaurants_id}/foods")
+    public ResponseEntity<ResponseDataDto<FoodResponseDto>> saleFood(@PathVariable Long restaurants_id, @RequestBody FoodRequestDto foodRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        FoodResponseDto responseDto= restaurantService.saleFood(restaurants_id, foodRequestDto, userDetails.getUser());
+        return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.FOOD_CREATE_SUCCESS, responseDto));
+    }
+
 }

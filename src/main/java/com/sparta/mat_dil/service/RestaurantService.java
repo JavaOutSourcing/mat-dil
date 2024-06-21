@@ -1,12 +1,16 @@
 package com.sparta.mat_dil.service;
 
+import com.sparta.mat_dil.dto.FoodRequestDto;
+import com.sparta.mat_dil.dto.FoodResponseDto;
 import com.sparta.mat_dil.dto.RestaurantRequestDto;
 import com.sparta.mat_dil.dto.RestaurantResponseDto;
+import com.sparta.mat_dil.entity.Food;
 import com.sparta.mat_dil.entity.Restaurant;
 import com.sparta.mat_dil.entity.User;
 import com.sparta.mat_dil.entity.UserType;
 import com.sparta.mat_dil.enums.ErrorType;
 import com.sparta.mat_dil.exception.CustomException;
+import com.sparta.mat_dil.repository.FoodRepository;
 import com.sparta.mat_dil.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
@@ -20,6 +24,7 @@ import java.util.stream.Collectors;
 public class RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
+    private final FoodRepository foodRepository;
 
     /** [createRestaurant()] 음식점 등록
      * @param loginUser 로그인 회원 정보
@@ -118,4 +123,19 @@ public class RestaurantService {
             throw new CustomException(ErrorType.NO_ATUTHENTIFICATION);
         }
     }
+
+    public FoodResponseDto saleFood(Long restaurantsId, FoodRequestDto foodRequestDto, User loginUser) {
+
+        //해당 음식점이 없는 경우
+        Restaurant restaurantById= restaurantRepository.findById(restaurantsId).orElseThrow(
+                ()-> new CustomException(ErrorType.NOT_FOUND_RESTAURANT));
+        if(!loginUser.getAccountId().equals(restaurantById.getUser().getAccountId())){
+            throw new CustomException(ErrorType.NO_ATUTHENTIFICATION);
+        }
+        //등록을 시도하는 점주 정보와 해당 음식점 점주 정보가 같지 않는 경우
+        Food food=new Food(restaurantById, foodRequestDto);
+        foodRepository.save(food);
+        return new FoodResponseDto(food);
+    }
+
 }

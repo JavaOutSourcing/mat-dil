@@ -17,6 +17,7 @@ public enum ErrorType {
     DEACTIVATE_USER(HttpStatus.FORBIDDEN, "이미 탈퇴한 회원입니다."),
     BLOCKED_USER(HttpStatus.LOCKED, "차단된 회원입니다."),
     NOT_FOUND_USER(HttpStatus.NOT_FOUND, "회원을 찾을 수 없습니다."),
+    NOT_ACCEPTED_COMMENT(HttpStatus.LOCKED, "본인의 음식점에는 댓글들 작성할 수 없습니다."),
     CONTENT_OWNER(HttpStatus.NOT_FOUND, "본인의 음식점과 댓글에는 ‘좋아요'를 추가할 수 없습니다."),
     PASSWORD_RECENTLY_USED(HttpStatus.LOCKED, "최근에 사용한 비밀번호는 사용할 수 없습니다."),
 

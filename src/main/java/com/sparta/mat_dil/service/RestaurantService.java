@@ -114,7 +114,7 @@ public class RestaurantService {
 
     // 권한 확인 메서드 - 판매자가 아니고, 게시물을 작성한 판매자가 아닌경우 예외처리
     private void checkRestaurantSupplier(Restaurant restaurantInfo, User loginUser) {
-        if(loginUser.getUserType() == UserType.SUPPLIER && !restaurantInfo.getUser().getName().equals(loginUser.getName())) {
+        if(loginUser.getUserType() == UserType.SUPPLIER && !restaurantInfo.getUser().getAccountId().equals(loginUser.getAccountId())) {
             throw new CustomException(ErrorType.NO_ATUTHENTIFICATION);
         }
     }

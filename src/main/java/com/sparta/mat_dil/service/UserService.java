@@ -104,13 +104,14 @@ public class UserService {
                 throw new CustomException(ErrorType.INVALID_PASSWORD);
             }
             //현재 비밀번호와 동일한 비밀번호로는 변경할 수 없음
-            if (passwordEncoder.matches(requestDto.getPassword(), requestDto.getNewPassword())) {
+            if (requestDto.getPassword().equals(requestDto.getNewPassword())) {
                 throw new CustomException(ErrorType.PASSWORD_RECENTLY_USED);
             }
+            System.out.println("adasdadasda\n\n\n\n");
             // 최근 3번 안에 사용한 비밀번호는 사용할 수 없도록 제한
             List<PasswordHistory> recentPasswords = passwordHistoryRepository.findTop3ByUserOrderByChangeDateDesc(user);
             boolean isInPreviousPasswords = recentPasswords.stream()
-                    .anyMatch(pw -> passwordEncoder.matches(requestDto.getNewPassword(), String.valueOf(pw)));
+                    .anyMatch(pw -> passwordEncoder.matches(requestDto.getNewPassword(), pw.getPassword()));
             if (isInPreviousPasswords) {
                 throw new CustomException(ErrorType.PASSWORD_RECENTLY_USED);
             }

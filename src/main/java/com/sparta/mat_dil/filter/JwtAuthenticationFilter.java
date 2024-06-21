@@ -1,10 +1,12 @@
 package com.sparta.mat_dil.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sparta.mat_dil.dto.ExceptionDto;
 import com.sparta.mat_dil.dto.LoginRequestDto;
 import com.sparta.mat_dil.dto.ResponseMessageDto;
 import com.sparta.mat_dil.entity.User;
 import com.sparta.mat_dil.entity.UserType;
+import com.sparta.mat_dil.enums.ErrorType;
 import com.sparta.mat_dil.enums.ResponseStatus;
 import com.sparta.mat_dil.jwt.JwtUtil;
 import com.sparta.mat_dil.repository.UserRepository;
@@ -78,6 +80,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
         log.info("로그인 실패");
-        response.setStatus(401);
+        ErrorType errorType = ErrorType.NOT_FOUND_AUTHENTICATION_INFO;
+        response.setContentType("application/json; charset=UTF-8");
+        response.getWriter().write(new ObjectMapper().writeValueAsString(new ExceptionDto(errorType)));
+        response.getWriter().flush();
     }
 }

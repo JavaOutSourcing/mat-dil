@@ -58,10 +58,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             }
 
         } else {
-//            res.setContentType("application/json");
-//            res.setCharacterEncoding("UTF-8");
-//            res.getWriter().write("asdfsdfsdfsdf");
-//            res.getWriter().flush();
             throw new CustomException(ErrorType.REQUIRES_LOGIN);
         }
 

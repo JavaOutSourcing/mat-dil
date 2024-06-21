@@ -46,9 +46,6 @@ public class User extends Timestamped{
     @Enumerated(value = EnumType.STRING)
     private UserStatus userStatus;
 
-    @ElementCollection
-    private List<String> passwordHistory = new ArrayList<>();
-
 /*    @Builder
     public User(String accountId, String password, String name, String intro, String userType) {
         this.accountId = accountId;
@@ -56,20 +53,10 @@ public class User extends Timestamped{
         this.name = name;
         this.intro = intro;
         this.userType = UserRoleEnum.valueOf(userType);
-        this.pwUsdLst3Tms = new ArrayList<>();
-        this.pwUsdLst3Tms.add(password);
     }*/
 
     public void update(Optional<String> newPassword, Optional<String> name, Optional<String> intro) {
-        if (newPassword.isPresent()) {
-            this.password = newPassword.get();
-
-            this.passwordHistory.add(this.password);
-            if (passwordHistory.size() > 3) {
-                passwordHistory.remove(0);
-            }
-        }
-
+        this.password = newPassword.orElse(this.password);
         this.name = name.orElse(this.name);
         this.intro = intro.orElse(this.intro);
     }

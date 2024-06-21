@@ -7,7 +7,11 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 <<<<<<< HEAD
+<<<<<<< HEAD
     Optional<User> findByAccountId(String id);
+=======
+    Optional<User> findByAccountId(String accountId);
+>>>>>>> 88e884f (jwt/login/logout)
 
     Optional<User> findByEmail(String email);
 =======

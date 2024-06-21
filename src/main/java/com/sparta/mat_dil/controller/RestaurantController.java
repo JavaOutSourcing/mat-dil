@@ -59,12 +59,12 @@ public class RestaurantController {
     }
 
 
-    /**
-    * 특정 음식점 수정
-    * @param id 음식점 id
-    * @param userDetails 회원 정보
-    * @return status.code, message
-    **/
+//    /**
+//    * 특정 음식점 수정
+//    * @param id 음식점 id
+//    * @param userDetails 회원 정보
+//    * @return status.code, message
+//    **/
 //    @PutMapping("/{id}")
 //    public ResponseEntity<ResponseDataDto<RestaurantResponseDto>> updateRestaurant(@PathVariable Long id, @RequestBody RestaurantRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 //        RestaurantResponseDto responseDto = restaurantService.updateRestaurant(id, requestDto, userDetails.getUser());
@@ -72,12 +72,12 @@ public class RestaurantController {
 //    }
 
 
-    /**
-    * 특정 음식점 삭제
-    * @param id 음식점 id
-    * @param userDetails 회원 정보
-    * @return status.code, message
-    **/
+//    /**
+//    * 특정 음식점 삭제
+//    * @param id 음식점 id
+//    * @param userDetails 회원 정보
+//    * @return status.code, message
+//    **/
 //    @DeleteMapping("/{id}")
 //    public ResponseEntity<ResponseMessageDto> deleteRestaurant(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 //        restaurantService.deleteRestaurant(id, userDetails.getUser());

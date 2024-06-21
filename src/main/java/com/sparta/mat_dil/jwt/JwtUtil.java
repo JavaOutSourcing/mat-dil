@@ -61,7 +61,19 @@ public class JwtUtil {
                         .compact();
     }
 
+<<<<<<< HEAD
     //생성된 JWT를 쿠키에 저장
+=======
+    // 액세스 토큰 생성
+    public String createAccessToken(String accountId, UserType userType) {
+        return createToken(accountId, TOKEN_TIME, userType);
+    }
+
+    // 리프레시 토큰 생성
+    public String createRefreshToken(String accountId, UserType userType) {
+        return createToken(accountId, REFRESH_TOKEN_TIME, userType);
+    }
+>>>>>>> 88e884f (jwt/login/logout)
 
     // JWT Cookie 에 저장
     public void addJwtToCookie(String token, HttpServletResponse res) {
@@ -127,4 +139,49 @@ public class JwtUtil {
         return null;
     }
 
+<<<<<<< HEAD
+=======
+    // AccessToken 가져오기
+    public String getAccessTokenFromRequest(HttpServletRequest req) {
+        return getTokenFromRequest(req, AUTHORIZATION_HEADER);
+    }
+
+    // RefreshToken 가져오기
+    public String getRefreshTokenFromRequest(HttpServletRequest req) {
+        return getTokenFromRequest(req, REFRESH_HEADER);
+    }
+
+    // 토큰에서 username 가져오기
+    public String getUsernameFromToken(String token) {
+        return getUsernameFromClaims(token);
+    }
+
+    // 리프레시 토큰에서 username 가져오기
+    public String getUsernameFromRefreshToken(String token) {
+        return getUsernameFromClaims(token);
+    }
+
+
+    // 공통 로직 분리
+    private String getUsernameFromClaims(String token) {
+        Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+        return claims.getSubject();
+    }
+
+    // 리프레시 토큰을 사용하여 새로운 액세스 토큰 발급
+    public String refreshAccessToken(String refreshToken) {
+        if (validateRefreshToken(refreshToken)) {
+            String accountId = getUsernameFromRefreshToken(refreshToken);
+            User user=userRepository.findByAccountId(accountId).get();
+            // 여기에서 필요한 경우 사용자 역할 정보를 가져올 수 있다.
+            return createAccessToken(accountId, user.getUserType()); // 사용자 역할이 필요하면 두 번째 인자에 역할을 전달
+        }
+        return null;
+    }
+    //토큰 블랙리스트 검사
+    private boolean isTokenBlacklisted(String token) {
+        return tokenBlacklist.contains(token);
+    }
+
+>>>>>>> 88e884f (jwt/login/logout)
 }

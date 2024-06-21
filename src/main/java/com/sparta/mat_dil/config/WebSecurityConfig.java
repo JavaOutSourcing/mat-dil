@@ -2,6 +2,7 @@ package com.sparta.mat_dil.config;
 
 import com.sparta.mat_dil.filter.JwtAuthenticationFilter;
 import com.sparta.mat_dil.filter.JwtAuthorizationFilter;
+import com.sparta.mat_dil.filter.JwtExceptionFilter;
 import com.sparta.mat_dil.jwt.JwtUtil;
 import com.sparta.mat_dil.repository.UserRepository;
 import com.sparta.mat_dil.security.UserDetailsServiceImpl;
@@ -54,6 +55,11 @@ public class WebSecurityConfig {
     }
 
     @Bean
+    public JwtExceptionFilter jwtExceptionFilter(){
+        return new JwtExceptionFilter();
+    }
+
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // CSRF 설정
         http.csrf((csrf) -> csrf.disable());
@@ -77,7 +83,7 @@ public class WebSecurityConfig {
         // 필터 관리
         http.addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-
+        http.addFilterBefore(jwtExceptionFilter(), JwtAuthorizationFilter.class);
 
         return http.build();
     }

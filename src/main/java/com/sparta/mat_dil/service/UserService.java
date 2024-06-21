@@ -1,4 +1,3 @@
-
 package com.sparta.mat_dil.service;
 
 import com.sparta.mat_dil.dto.PasswordRequestDto;
@@ -11,7 +10,11 @@ import com.sparta.mat_dil.entity.UserStatus;
 import com.sparta.mat_dil.enums.ErrorType;
 import com.sparta.mat_dil.exception.CustomException;
 import com.sparta.mat_dil.repository.PasswordHistoryRepository;
+import com.sparta.mat_dil.jwt.JwtUtil;
 import com.sparta.mat_dil.repository.UserRepository;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,71 +24,71 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-    @Service
-    @RequiredArgsConstructor
-    public class UserService {
+@Service
+@RequiredArgsConstructor
+public class UserService {
 
         private final UserRepository userRepository;
         private final PasswordHistoryRepository passwordHistoryRepository;
         private final PasswordEncoder passwordEncoder;
 
 
-        //회원가입
-        @Transactional
-        public void createUser(UserRequestDto requestDto) {
-            //동일 아이디 검증
-            validateUserId(requestDto.getAccountId());
-
-            //동일 이메일 검증
-            validateUserEmail(requestDto.getEmail());
-
-            //비밀번호 암호화
-            String password = passwordEncoder.encode(requestDto.getPassword());
-            requestDto.setPassword(password);
-            userRepository.save(new User(requestDto));
-
-        }
-
-        @Transactional
-        public void withdrawUser(PasswordRequestDto requestDTO, User user) {
-
-            //회원 상태 확인
-            checkUserType(user.getUserStatus());
-
-//        //비밀번호 일치 확인
-            if (!passwordEncoder.matches(requestDTO.getPassword(), user.getPassword())) {
-                throw new CustomException(ErrorType.INVALID_PASSWORD);
-            }
-
-            //회원 상태 변경
-            user.withdrawUser();
-
-
-        }
+    //회원가입
+    @Transactional
+    public void createUser(UserRequestDto requestDto) {
+        //동일 아이디 검증
+        validateUserId(requestDto.getAccountId());
 
         //동일 이메일 검증
-        private void validateUserEmail(String email) {
-            Optional<User> findUser = userRepository.findByEmail(email);
+        validateUserEmail(requestDto.getEmail());
 
-            if (findUser.isPresent()) {
-                throw new IllegalArgumentException("중복된 유저 email 입니다.");
-            }
+        //비밀번호 암호화
+        String password = passwordEncoder.encode(requestDto.getPassword());
+        requestDto.setPassword(password);
+        userRepository.save(new User(requestDto));
+
+    }
+
+    @Transactional
+    public void withdrawUser(PasswordRequestDto requestDTO, User user) {
+
+        //회원 상태 확인
+        checkUserType(user.getUserStatus());
+
+//        //비밀번호 일치 확인
+        if (!passwordEncoder.matches(requestDTO.getPassword(), user.getPassword())) {
+            throw new CustomException(ErrorType.INVALID_PASSWORD);
         }
 
-        //동일 아이디 검증
-        private void validateUserId(String id) {
-            Optional<User> findUser = userRepository.findByAccountId(id);
+        //회원 상태 변경
+        user.withdrawUser();
 
-            if (findUser.isPresent()) {
-                throw new IllegalArgumentException("중복된 유저 id 입니다.");
-            }
-        }
 
-        private void checkUserType(UserStatus userStatus) {
-            if (userStatus.equals(UserStatus.DEACTIVATE)) {
-                throw new IllegalArgumentException("이미 탈퇴한 회원입니다.");
-            }
+    }
+
+    //동일 이메일 검증
+    private void validateUserEmail(String email) {
+        Optional<User> findUser = userRepository.findByEmail(email);
+
+        if(findUser.isPresent()){
+            throw new IllegalArgumentException("중복된 유저 email 입니다.");
         }
+    }
+
+    //동일 아이디 검증
+    private void validateUserId(String id) {
+        Optional<User> findUser = userRepository.findByAccountId(id);
+
+        if(findUser.isPresent()){
+            throw new IllegalArgumentException("중복된 유저 id 입니다.");
+        }
+    }
+
+    private void checkUserType(UserStatus userStatus){
+        if(userStatus.equals(UserStatus.DEACTIVATE)){
+            throw new IllegalArgumentException("이미 탈퇴한 회원입니다.");
+        }
+    }
 
         @Transactional
         public ProfileResponseDto update(Long userId, ProfileRequestDto requestDto) {
@@ -124,8 +127,20 @@ import java.util.Optional;
 
             return new ProfileResponseDto(user);
         }
-    public void logout(User user) {
+
+    public void logout(User user, HttpServletResponse res, HttpServletRequest req) {
         user.logout();
+        Cookie[] cookies = req.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                cookie.setValue(null);
+                cookie.setPath("/");
+                cookie.setMaxAge(0);
+                res.addCookie(cookie);
+            }
+        }
+
+
     }
 
     public ProfileResponseDto getProfile(Long userId) {

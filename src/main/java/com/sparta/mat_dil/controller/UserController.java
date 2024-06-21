@@ -4,6 +4,8 @@ import com.sparta.mat_dil.dto.*;
 import com.sparta.mat_dil.enums.ResponseStatus;
 import com.sparta.mat_dil.security.UserDetailsImpl;
 import com.sparta.mat_dil.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -35,8 +37,10 @@ public class UserController {
 
 
     @PostMapping("/logout")
-    public ResponseEntity<ResponseMessageDto> logout(@AuthenticationPrincipal UserDetailsImpl userDetails){
-            userService.logout(userDetails.getUser());
+    public ResponseEntity<ResponseMessageDto> logout(@AuthenticationPrincipal UserDetailsImpl userDetails, HttpServletResponse res,
+                                                     HttpServletRequest req){
+
+        userService.logout(userDetails.getUser(), res, req);
         return ResponseEntity.ok(new ResponseMessageDto(ResponseStatus.LOGOUT_SUCCESS));
     }
 

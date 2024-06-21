@@ -87,13 +87,13 @@ public class RestaurantController {
 
 
     //댓글 등록
-//    @PostMapping("/{restaurants_id}/comments")
-//    public ResponseEntity<ResponseDataDto<CommentResponseDto>> createComment(@PathVariable Long restaurants_id, @RequestBody CommentRequestDto requestDto,
-//                                                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        CommentResponseDto responseDto = commentService.createComment(restaurants_id, requestDto, userDetails.getUser());
-//
-//        return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.COMMENTS_CHECK_SUCCESS, responseDto));
-//    }
+    @PostMapping("/{restaurants_id}/comments")
+    public ResponseEntity<ResponseDataDto<CommentResponseDto>> createComment(@PathVariable Long restaurants_id, @RequestBody CommentRequestDto requestDto,
+                                                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        CommentResponseDto responseDto = commentService.createComment(restaurants_id, requestDto, userDetails.getUser());
+
+        return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.COMMENTS_CHECK_SUCCESS, responseDto));
+    }
 
     //전체 댓글 조회
     @GetMapping("/{restaurantId}/comments")
@@ -112,23 +112,23 @@ public class RestaurantController {
     }
 
 //    //댓글 수정
-//    @PutMapping("/{restaurantId}/comments/{commentId}")
-//    public ResponseEntity<CommentResponseDto> updateComment(@PathVariable Long restaurantId, @PathVariable Long commentId,
-//                                                            @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
-//
-//        CommentResponseDto responseDto = commentService.updateComment(restaurantId, commentId, userDetails.getUser(), requestDto);
-//
-//        return ResponseEntity.ok(responseDto);
-//    }
-//
-//    //댓글 삭제
-//    @DeleteMapping("/{restaurantId}/comments/{commentId}")
-//    public ResponseEntity<String> deleteComment(@PathVariable Long restaurantId, @PathVariable Long commentId,
-//                                                @RequestBody PasswordRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
-//
-//        commentService.deleteComment(restaurantId, commentId, requestDto, userDetails.getUser());
-//
-//        return ResponseEntity.ok("댓글이 삭제되었습니다.");
-//    }
+    @PutMapping("/{restaurantId}/comments/{commentId}")
+    public ResponseEntity<CommentResponseDto> updateComment(@PathVariable Long restaurantId, @PathVariable Long commentId,
+                                                            @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+
+        CommentResponseDto responseDto = commentService.updateComment(restaurantId, commentId, userDetails.getUser(), requestDto);
+
+        return ResponseEntity.ok(responseDto);
+    }
+
+    //댓글 삭제
+    @DeleteMapping("/{restaurantId}/comments/{commentId}")
+    public ResponseEntity<String> deleteComment(@PathVariable Long restaurantId, @PathVariable Long commentId,
+                                                @RequestBody PasswordRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+
+        commentService.deleteComment(restaurantId, commentId, userDetails.getUser(), requestDto);
+
+        return ResponseEntity.ok("댓글이 삭제되었습니다.");
+    }
 
 }

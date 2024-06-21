@@ -1,9 +1,6 @@
 package com.sparta.mat_dil.controller;
 
-import com.sparta.mat_dil.dto.ProfileRequestDto;
-import com.sparta.mat_dil.dto.ProfileResponseDto;
-import com.sparta.mat_dil.dto.ResponseMessageDto;
-import com.sparta.mat_dil.dto.UserRequestDto;
+import com.sparta.mat_dil.dto.*;
 import com.sparta.mat_dil.enums.ResponseStatus;
 import com.sparta.mat_dil.security.UserDetailsImpl;
 import com.sparta.mat_dil.service.UserService;
@@ -30,13 +27,13 @@ public class UserController {
     }
 
     //회원 탈퇴
-//    @PatchMapping
-//    public ResponseEntity<ResponseMessageDto> withdrawUser(@Valid @RequestBody PasswordRequestDto requestDTO,
-//        @AuthenticationPrincipal UserDetailsImpl userDetails){
-//
-//        userService.withdrawUser(requestDTO, userDetails.getUser());
-//        return ResponseEntity.ok(new ResponseMessageDto(ResponseStatus.DEACTIVATE_USER_SUCCESS));
-//    }
+    @PatchMapping
+    public ResponseEntity<ResponseMessageDto> withdrawUser(@Valid @RequestBody PasswordRequestDto requestDTO,
+        @AuthenticationPrincipal UserDetailsImpl userDetails){
+
+        userService.withdrawUser(requestDTO, userDetails.getUser());
+        return ResponseEntity.ok(new ResponseMessageDto(ResponseStatus.DEACTIVATE_USER_SUCCESS));
+    }
 
 
     @PostMapping("/logout")

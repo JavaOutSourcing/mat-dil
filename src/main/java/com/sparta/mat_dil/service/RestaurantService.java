@@ -47,8 +47,8 @@ public class RestaurantService {
         Sort.Direction direction = Sort.Direction.DESC;
         Sort sort = Sort.by(direction, "createdAt");
         Pageable pageable = PageRequest.of(page, 5, sort);
-
-        return new PageImpl<>(restaurantRepository.findAllByUser_UserStatus(pageable).stream().map(RestaurantResponseDto::new).collect(Collectors.toList()));
+//        return null;
+        return new PageImpl<>(restaurantRepository.findAll(pageable).stream().map(RestaurantResponseDto::new).collect(Collectors.toList()));
     }
 
 

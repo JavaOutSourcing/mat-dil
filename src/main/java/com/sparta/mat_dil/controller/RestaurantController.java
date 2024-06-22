@@ -105,30 +105,63 @@ public class RestaurantController {
 
     //단일 댓글 조회
     @GetMapping("/{restaurantId}/comments/{commentId}")
-    public ResponseEntity<CommentResponseDto> getComment(@PathVariable Long restaurantId, @PathVariable Long commentId){
+    public ResponseEntity<ResponseDataDto<CommentResponseDto>> getComment(@PathVariable Long restaurantId, @PathVariable Long commentId){
         CommentResponseDto responseDto = commentService.getComment(restaurantId, commentId);
 
-        return ResponseEntity.ok(responseDto);
+        return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.COMMENT_CHECK_SUCCESS, responseDto));
     }
 
 //    //댓글 수정
     @PutMapping("/{restaurantId}/comments/{commentId}")
-    public ResponseEntity<CommentResponseDto> updateComment(@PathVariable Long restaurantId, @PathVariable Long commentId,
+    public ResponseEntity<ResponseDataDto<CommentResponseDto>> updateComment(@PathVariable Long restaurantId, @PathVariable Long commentId,
                                                             @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
 
         CommentResponseDto responseDto = commentService.updateComment(restaurantId, commentId, userDetails.getUser(), requestDto);
 
-        return ResponseEntity.ok(responseDto);
+        return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.COMMENT_UPDATE_SUCCESS, responseDto));
     }
 
     //댓글 삭제
     @DeleteMapping("/{restaurantId}/comments/{commentId}")
-    public ResponseEntity<String> deleteComment(@PathVariable Long restaurantId, @PathVariable Long commentId,
+    public ResponseEntity<ResponseMessageDto> deleteComment(@PathVariable Long restaurantId, @PathVariable Long commentId,
                                                 @RequestBody PasswordRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
 
         commentService.deleteComment(restaurantId, commentId, userDetails.getUser(), requestDto);
 
-        return ResponseEntity.ok("댓글이 삭제되었습니다.");
+        return ResponseEntity.ok(new ResponseMessageDto(ResponseStatus.COMMENT_DELETE_SUCCESS));
     }
 
+    //음식 등록
+    @PostMapping("/{restaurants_id}/foods")
+    public ResponseEntity<ResponseDataDto<FoodResponseDto>> saleFood(@PathVariable Long restaurants_id, @RequestBody FoodRequestDto foodRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        FoodResponseDto responseDto= restaurantService.saleFood(restaurants_id, foodRequestDto, userDetails.getUser());
+        return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.FOOD_CREATE_SUCCESS, responseDto));
+    }
+
+   //전체 음식 조회
+    @GetMapping("/{restaurants_id}/foods")
+    public Page<FoodResponseDto> getFoodList(@RequestParam(value = "page") int page) {
+        return restaurantService.getFoodList(page - 1);
+    }
+
+    //특정 음식 조회
+    @GetMapping("/{restaurants_id}/foods/{food_id}")
+    public ResponseEntity<ResponseDataDto<FoodResponseDto>> getFood(@PathVariable Long restaurants_id, @PathVariable Long food_id){
+        FoodResponseDto responseDto= restaurantService.getFood(restaurants_id, food_id);
+        return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.FOOD_CHECK_SUCCESS, responseDto));
+    }
+
+    //음식 수정
+    @PutMapping("/{restaurant_id}/foods/{food_id}")
+    public ResponseEntity<ResponseDataDto<FoodResponseDto>> updateFood(@PathVariable Long restaurant_id, @PathVariable Long food_id, @RequestBody FoodRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        FoodResponseDto responseDto=restaurantService.updateFood(restaurant_id, food_id, requestDto, userDetails.getUser());
+        return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.RESTAURANT_UPDATE_SUCCESS, responseDto));
+    }
+
+    //음식 삭제
+    @DeleteMapping("/{restaurant_id}/foods/{food_id}")
+    public ResponseEntity<ResponseMessageDto> deleteFood(@PathVariable Long restaurant_id, @PathVariable Long food_id, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        restaurantService.deleteFood(restaurant_id, food_id, userDetails.getUser());
+        return ResponseEntity.ok(new ResponseMessageDto(ResponseStatus.FOOD_DELETE_SUCCESS));
+    }
 }

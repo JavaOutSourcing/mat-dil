@@ -56,9 +56,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 log.error(e.getMessage());
                 throw new CustomException(ErrorType.NOT_FOUND_AUTHENTICATION_INFO);
             }
-
-        } else {
-            throw new CustomException(ErrorType.REQUIRES_LOGIN);
         }
 
         filterChain.doFilter(req, res);

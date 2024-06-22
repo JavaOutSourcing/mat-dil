@@ -26,6 +26,9 @@ public class Restaurant extends Timestamped{
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Column(nullable = false)
+    private Long likes = 0L;
+
     public Restaurant(User loginUser, RestaurantRequestDto requestDto) {
         this.user = loginUser;
         this.restaurantName = requestDto.getRestaurantName();
@@ -35,5 +38,11 @@ public class Restaurant extends Timestamped{
     public void update(RestaurantRequestDto requestDto) {
         this.restaurantName = requestDto.getRestaurantName();
         this.description = requestDto.getDescription();
+    }
+
+    public Long updateLike(boolean islike){
+        if(islike){this.likes += 1;}
+        else{this.likes -= 1;}
+        return this.likes;
     }
 }

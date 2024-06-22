@@ -139,9 +139,9 @@ public class RestaurantController {
     }
 
    //전체 음식 조회
-    @GetMapping("/{restaurants_id}/foods")
-    public Page<FoodResponseDto> getFoodList(@RequestParam(value = "page") int page) {
-        return restaurantService.getFoodList(page - 1);
+    @GetMapping("/{restaurantId}/foods")
+    public Page<FoodResponseDto> getFoodList(@RequestParam(value = "page") int page, @PathVariable Long restaurantId) {
+        return restaurantService.getFoodList(page - 1, restaurantId);
     }
 
     //특정 음식 조회

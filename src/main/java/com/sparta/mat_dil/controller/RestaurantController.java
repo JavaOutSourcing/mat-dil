@@ -45,13 +45,13 @@ public class RestaurantController {
     public Page<RestaurantResponseDto> getRestaurantList(@RequestParam(value = "page") int page) {
         return restaurantService.getRestaurantList(page - 1);
     }
+
+
     /**
     * 특정 음식점 조회
     * @param id 음식점 id
     * @return status.code, message
     **/
-
-
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDataDto<RestaurantResponseDto>> getRestaurant(@PathVariable Long id) {
         RestaurantResponseDto responseDto = restaurantService.getRestaurant(id);

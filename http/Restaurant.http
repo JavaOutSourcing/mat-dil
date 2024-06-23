@@ -1,0 +1,34 @@
+### 음식점 생성
+POST http://localhost:8080/restaurants
+Content-Type: application/json
+
+{
+  "restaurantName": "원할머니보쌈",
+  "description": "세상에서 가장 쫄깃하고 맛있는 보쌈집"
+}
+
+
+### 전체 음식점 전체 목록 조회
+GET http://localhost:8080/restaurants?page=1
+
+
+### /posts/{id} <- path
+@id = 1
+
+
+### 특정 음식점 목록 조회
+GET http://localhost:8080/restaurants/{{id}}
+
+
+### 특정 음식점 수정
+PUT http://localhost:8080/restaurants/{{id}}
+Content-Type: application/json
+
+{
+  "restaurantName": "원할머니 족발",
+  "description": "세상에서 가장 쫄깃하고 맛있는 족발집"
+}
+
+
+### 특정 음식점 삭제
+DELETE http://localhost:8080/restaurants/{{id}}

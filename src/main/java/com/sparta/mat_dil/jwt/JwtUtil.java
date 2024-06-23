@@ -76,7 +76,6 @@ public class JwtUtil {
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(key, signatureAlgorithm);
-
         return BEARER_PREFIX + builder.compact();
     }
 
@@ -94,7 +93,7 @@ public class JwtUtil {
     public void addJwtToCookie(String accessToken, String refreshToken, HttpServletResponse res) {
         try {
             accessToken = URLEncoder.encode(accessToken, "utf-8").replaceAll("\\+", "%20"); // Cookie Value 에는 공백이 불가능해서 encoding 진행
-            refreshToken = URLEncoder.encode(accessToken, "utf-8").replaceAll("\\+", "%20");
+            refreshToken = URLEncoder.encode(refreshToken, "utf-8").replaceAll("\\+", "%20");
 
             Cookie cookieAccess = new Cookie(AUTHORIZATION_HEADER, accessToken); // Name-Value
             Cookie cookieRefresh = new Cookie(REFRESH_HEADER, refreshToken);
@@ -146,7 +145,7 @@ public class JwtUtil {
             throw new CustomException(ErrorType.INVALID_JWT);
         } catch (ExpiredJwtException e) {
             log.error("Expired JWT token, 만료된 JWT token 입니다.", e);
-            throw new CustomException(ErrorType.EXPIRED_JWT);
+//            throw new CustomException(ErrorType.EXPIRED_JWT);
         } catch (UnsupportedJwtException e) {
             log.error("Unsupported JWT token, 지원되지 않는 JWT 토큰 입니다.", e);
             throw new CustomException(ErrorType.INVALID_JWT);
@@ -157,6 +156,7 @@ public class JwtUtil {
             log.error("잘못되었습니다.", e);
             throw new CustomException(ErrorType.INVALID_JWT);
         }
+        return false;
     }
 
     //JWT access token 에서 사용자 정보 가져오기
@@ -207,16 +207,6 @@ public class JwtUtil {
         return claims.getSubject();
     }
 
-    // 리프레시 토큰을 사용하여 새로운 액세스 토큰 발급
-    public String refreshAccessToken(String refreshToken) {
-        if (validateRefreshToken(refreshToken)) {
-            String accountId = getUsernameFromRefreshToken(refreshToken);
-            User user=userRepository.findByAccountId(accountId).get();
-            // 여기에서 필요한 경우 사용자 역할 정보를 가져올 수 있다.
-            return createAccessToken(accountId, user.getUserType()); // 사용자 역할이 필요하면 두 번째 인자에 역할을 전달
-        }
-        return null;
-    }
     //토큰 블랙리스트 검사
     private boolean isTokenBlacklisted(String token) {
         return tokenBlacklist.contains(token);

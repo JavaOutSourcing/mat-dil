@@ -29,6 +29,9 @@ public class Restaurant extends Timestamped{
     @Column(nullable = false)
     private Long likes = 0L;
 
+    @Column
+    private Boolean pinned;
+
     public Restaurant(User loginUser, RestaurantRequestDto requestDto) {
         this.user = loginUser;
         this.restaurantName = requestDto.getRestaurantName();

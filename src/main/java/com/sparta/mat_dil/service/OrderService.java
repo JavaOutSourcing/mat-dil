@@ -2,6 +2,7 @@ package com.sparta.mat_dil.service;
 
 import com.sparta.mat_dil.dto.OrderResponseDto;
 import com.sparta.mat_dil.entity.Food;
+import com.sparta.mat_dil.entity.Order;
 import com.sparta.mat_dil.entity.Restaurant;
 import com.sparta.mat_dil.enums.ErrorType;
 import com.sparta.mat_dil.exception.CustomException;

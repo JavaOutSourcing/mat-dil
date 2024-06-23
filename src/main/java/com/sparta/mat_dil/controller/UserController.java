@@ -52,13 +52,10 @@ public class UserController {
 
     //회원 정보 수정
     @PutMapping
-    public ResponseEntity<ResponseMessageDto> profile1Update(
+    public ResponseEntity<ResponseDataDto<ProfileResponseDto>> profileUpdate(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @RequestBody ProfileRequestDto requestDto) {
-        userService.update(userDetails.getUser().getId(), requestDto);
-        return ResponseEntity.ok(new ResponseMessageDto(ResponseStatus.PROFILE_UPDATE_SUCCESS));
+        ProfileResponseDto responseDto = userService.update(userDetails.getUser().getId(), requestDto);
+        return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.PROFILE_UPDATE_SUCCESS, responseDto));
     }
-
-
-
 }

@@ -45,13 +45,13 @@ public class RestaurantController {
     public Page<RestaurantResponseDto> getRestaurantList(@RequestParam(value = "page") int page) {
         return restaurantService.getRestaurantList(page - 1);
     }
+
+
     /**
     * 특정 음식점 조회
     * @param id 음식점 id
     * @return status.code, message
     **/
-
-
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDataDto<RestaurantResponseDto>> getRestaurant(@PathVariable Long id) {
         RestaurantResponseDto responseDto = restaurantService.getRestaurant(id);
@@ -92,7 +92,7 @@ public class RestaurantController {
                                                             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         CommentResponseDto responseDto = commentService.createComment(restaurants_id, requestDto, userDetails.getUser());
 
-        return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.COMMENTS_CHECK_SUCCESS, responseDto));
+        return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.COMMENT_CREATE_SUCCESS, responseDto));
     }
 
     //전체 댓글 조회
@@ -139,9 +139,9 @@ public class RestaurantController {
     }
 
    //전체 음식 조회
-    @GetMapping("/{restaurants_id}/foods")
-    public Page<FoodResponseDto> getFoodList(@RequestParam(value = "page") int page) {
-        return restaurantService.getFoodList(page - 1);
+    @GetMapping("/{restaurantId}/foods")
+    public Page<FoodResponseDto> getFoodList(@RequestParam(value = "page") int page, @PathVariable Long restaurantId) {
+        return restaurantService.getFoodList(page - 1, restaurantId);
     }
 
     //특정 음식 조회

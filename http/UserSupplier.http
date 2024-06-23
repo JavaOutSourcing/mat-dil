@@ -1,0 +1,42 @@
+### 판매자 회원가입
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "accountId": "supplier0",
+  "password": "Supplier0!",
+  "name": "판매자",
+  "email": "supplier@gmail.com",
+  "userType" : "SUPPLIER"
+
+}
+
+
+### 판매자 로그인
+POST http://localhost:8080/users/login
+Content-Type: application/json
+
+{
+  "accountId": "supplier0",
+  "password": "Supplier0!"
+}
+
+### 로그아웃
+POST http://localhost:8080/users/logout
+Content-Type: application/json
+
+
+### 회원 프로필 조회
+GET http://localhost:8080/users
+
+
+### 회원 프로필 수정
+PUT http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "name": "판매자업데이트",
+  "intro": "음식으로 장난 안치는 판매자입니다.",
+  "password": "Supplier0!",
+  "newPassword": "Supplier1!"
+}

@@ -141,12 +141,12 @@ public class RestaurantService {
         return new FoodResponseDto(food);
     }
 
-    public Page<FoodResponseDto> getFoodList(int page) {
+    public Page<FoodResponseDto> getFoodList(int page, Long restaurantId) {
         //음식 등록 순으로 정렬
         Sort.Direction direction = Sort.Direction.DESC;
         Sort sort = Sort.by(direction, "createdAt");
-        Pageable pageable = PageRequest.of(page, 5, sort);
-        return new PageImpl<>(foodRepository.findAll(pageable).stream().map(FoodResponseDto::new).collect(Collectors.toList()));
+        Pageable pageable = PageRequest.of(page, 10, sort);
+        return new PageImpl<>(foodRepository.findByRestaurantId(pageable, restaurantId).stream().map(FoodResponseDto::new).collect(Collectors.toList()));
     }
 
     public FoodResponseDto getFood(Long restaurantsId, Long foodId) {
@@ -156,6 +156,7 @@ public class RestaurantService {
        return new FoodResponseDto(food);
     }
 
+    @Transactional
     public FoodResponseDto updateFood(Long restaurantId, Long foodId, FoodRequestDto requestDto, User loginUser) {
         //해당 음식점이 없는 경우
         Restaurant restaurantById= restaurantRepository.findById(restaurantId).orElseThrow(
@@ -171,6 +172,7 @@ public class RestaurantService {
         return new FoodResponseDto(food);
     }
 
+    @Transactional
     public void deleteFood(Long restaurantId, Long foodId, User loginUser) {
         //해당 음식점이 없는 경우
         Restaurant restaurantById= restaurantRepository.findById(restaurantId).orElseThrow(

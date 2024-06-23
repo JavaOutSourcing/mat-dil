@@ -35,17 +35,21 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain filterChain) throws ServletException, IOException {
 
         String tokenValue = jwtUtil.getAccessTokenFromRequest(req);
-        log.info(tokenValue);
+        String refreshToken = jwtUtil.getRefreshTokenFromRequest(req);
 
         if (StringUtils.hasText(tokenValue)) {
             // JWT 토큰 substring
             tokenValue = jwtUtil.substringToken(tokenValue);
-            log.info(tokenValue);
-
 
             if (!jwtUtil.validateToken(tokenValue)) {
-                log.error("Token Error");
-                return;
+                if(StringUtils.hasText(refreshToken)){
+                    refreshToken = jwtUtil.substringToken(refreshToken);
+                    if(!jwtUtil.validateRefreshToken(refreshToken)){
+                        log.error("RefreshToken Error");
+                        return;
+                    }
+                    jwtUtil.addJwtToCookie(JwtUtil.BEARER_PREFIX + tokenValue, JwtUtil.BEARER_PREFIX + refreshToken, res);
+                }
             }
 
             Claims info = jwtUtil.getUserInfoFromToken(tokenValue);

@@ -26,7 +26,7 @@ public class OrderController {
         for (OrderResponseDto order : orderList) {
             sum += order.getPrice();
         }
-        return ResponseEntity.ok(new OrderDetailDataDto<>(ResponseStatus.ORDER_CHECK_SUCCESS, orderList, sum));
+        return ResponseEntity.ok(new OrderDetailDataDto<>(ResponseStatus.ORDER_SUCCESS, orderList, sum));
     }
 
 }

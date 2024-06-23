@@ -1,0 +1,10 @@
+### 음식점 ID
+@restaurantId = 1
+
+### 주문 등록
+POST http://localhost:8080/orders/{{restaurantId}}
+Content-Type: application/json
+
+{
+    "foodId" : [2, 3]
+}

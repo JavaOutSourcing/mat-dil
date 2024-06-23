@@ -92,7 +92,7 @@ public class RestaurantController {
                                                             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         CommentResponseDto responseDto = commentService.createComment(restaurants_id, requestDto, userDetails.getUser());
 
-        return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.COMMENTS_CHECK_SUCCESS, responseDto));
+        return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.COMMENT_CREATE_SUCCESS, responseDto));
     }
 
     //전체 댓글 조회

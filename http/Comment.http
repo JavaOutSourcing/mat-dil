@@ -1,0 +1,37 @@
+### 음식점 ID, 댓글 ID
+@restaurantId = 2
+@commentId = 1
+
+### 댓글 등록
+POST http://localhost:8080/restaurants/{{restaurantId}}/comments
+Content-Type: application/json
+
+{
+  "description": "음식이 정말 ㅁㅏㅅ있어요"
+}
+
+
+### 전체 댓글 조회
+GET http://localhost:8080/restaurants/{{restaurantId}}/comments
+
+
+### 특정 댓글 조회
+GET http://localhost:8080/restaurants/{{restaurantId}}/comments/{{commentId}}
+
+
+### 댓글 수정
+PUT http://localhost:8080/restaurants/{{restaurantId}}/comments/{{commentId}}
+Content-Type: application/json
+
+{
+  "description": "음식이 정말 맛있어요"
+}
+
+
+### 댓글 삭제
+DELETE http://localhost:8080/restaurants/{{restaurantId}}/comments/{{commentId}}
+Content-Type: application/json
+
+{
+  "password": "Consumer0!"
+}

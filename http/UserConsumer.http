@@ -1,0 +1,41 @@
+### 구매자 회원가입
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "accountId": "consumer0",
+  "password": "Consumer0!",
+  "name": "구매자",
+  "email": "consumer@gmail.com",
+  "userType" : "CONSUMER"
+}
+
+
+### 구매자 로그인
+POST http://localhost:8080/users/login
+Content-Type: application/json
+
+{
+  "accountId": "consumer0",
+  "password": "Consumer0!"
+}
+
+### 로그아웃
+POST http://localhost:8080/users/logout
+Content-Type: application/json
+
+
+### 회원 프로필 조회
+GET http://localhost:8080/users
+
+
+### 회원 프로필 수정
+PUT http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "name": "구매자업데이트",
+  "intro": "보쌈에 진심인 구매자 박성균입니다.",
+  "password": "Consumer0!",
+  "newPassword": "Consumer1!"
+}

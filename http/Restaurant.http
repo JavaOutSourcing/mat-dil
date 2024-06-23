@@ -1,10 +1,29 @@
-### 음식점 생성
+### 음식점 생성 - 원할머니 보쌈
 POST http://localhost:8080/restaurants
 Content-Type: application/json
 
 {
   "restaurantName": "원할머니보쌈",
   "description": "세상에서 가장 쫄깃하고 맛있는 보쌈집"
+}
+
+### 음식점 생성 - 스시앤스시
+POST http://localhost:8080/restaurants
+Content-Type: application/json
+
+{
+  "restaurantName": "스시앤스시",
+  "description": "연어가 입안에서 요동치는 맛스시"
+}
+
+
+### 음식점 생성 - 돼지구이
+POST http://localhost:8080/restaurants
+Content-Type: application/json
+
+{
+  "restaurantName": "돼지구이",
+  "description": "돼지고기가 일품인 고깃집"
 }
 
 

@@ -156,6 +156,7 @@ public class RestaurantService {
        return new FoodResponseDto(food);
     }
 
+    @Transactional
     public FoodResponseDto updateFood(Long restaurantId, Long foodId, FoodRequestDto requestDto, User loginUser) {
         //해당 음식점이 없는 경우
         Restaurant restaurantById= restaurantRepository.findById(restaurantId).orElseThrow(
@@ -171,6 +172,7 @@ public class RestaurantService {
         return new FoodResponseDto(food);
     }
 
+    @Transactional
     public void deleteFood(Long restaurantId, Long foodId, User loginUser) {
         //해당 음식점이 없는 경우
         Restaurant restaurantById= restaurantRepository.findById(restaurantId).orElseThrow(

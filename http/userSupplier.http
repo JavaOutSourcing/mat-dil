@@ -4,11 +4,11 @@ Content-Type: application/json
 Cookie: accessToken={{accessToken}}; refreshToken={{refreshToken}}
 
 {
-  "accountId": "matdil12",
-  "password": "matDil1!2",
-  "name": "user1",
-  "email": "insidesy432@gmail.com",
-  "userType" : "CONSUMER"
+  "accountId": "supplier0",
+  "password": "Supplier0!",
+  "name": "판매자",
+  "email": "supplier@gmail.com",
+  "userType" : "SUPPLIER"
 
 }
 
@@ -18,8 +18,8 @@ POST http://localhost:8080/users/login
 Content-Type: application/json
 
 {
-  "accountId": "matdil12",
-  "password": "matDil1!2"
+  "accountId": "supplier0",
+  "password": "Supplier0!"
 }
 
 > {%
@@ -53,11 +53,10 @@ refreshToken: {{refreshToken}}
 PUT http://localhost:8080/users
 accessToken: {{accessToken}}
 refreshToken: {{refreshToken}}
-Content-Type: application/json
 
 {
-  "name": "matdilUpdate",
-  "intro": "안녕하세요, 맛딜 인트로를 업데이트 했습니다.",
-  "password": "matDil1!2",
-  "newPassword": "matDil1!24%"
+  "name": "판매자업데이트",
+  "intro": "음식으로 장난 안치는 판매자입니다.",
+  "password": "Supplier0!",
+  "newPassword": "Supplier1!"
 }

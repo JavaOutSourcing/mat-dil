@@ -1,4 +1,4 @@
-### 음식점 ID, 댓글 ID
+### 음식점 ID, 음식 ID
 @restaurantId = 1
 @foodId = 1
 

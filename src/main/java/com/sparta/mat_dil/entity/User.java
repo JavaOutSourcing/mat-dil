@@ -7,8 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Entity
@@ -48,14 +46,8 @@ public class User extends Timestamped{
     @Enumerated(value = EnumType.STRING)
     private UserStatus userStatus;
 
-/*    @Builder
-    public User(String accountId, String password, String name, String intro, String userType) {
-        this.accountId = accountId;
-        this.password = password;
-        this.name = name;
-        this.intro = intro;
-        this.userType = UserRoleEnum.valueOf(userType);
-    }*/
+    @Column
+    private Long kakaoId;
 
     //로그인시 리프레시 토큰 초기화
     @Transactional
@@ -78,11 +70,25 @@ public class User extends Timestamped{
         this.userStatus = UserStatus.ACTIVE;
     }
 
+    public User(String accountId, String password, String name, String email, UserType userType, UserStatus userStatus, Long kakaoId) {
+        this.accountId = accountId;
+        this.password=password;
+        this.name=name;
+        this.email=email;
+        this.userType=userType;
+        this.userStatus=userStatus;
+        this.kakaoId=kakaoId;
+    }
+
     public void withdrawUser() {
         this.userStatus = UserStatus.DEACTIVATE;
     }
 
     public void logout(){
         this.refreshToken=null;
+    }
+
+    public void kakaoIdUpdate(Long kakaoId) {
+        this.kakaoId=kakaoId;
     }
 }

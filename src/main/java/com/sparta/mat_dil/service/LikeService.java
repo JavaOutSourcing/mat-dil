@@ -24,14 +24,14 @@ public class LikeService {
 
     public LikeResponseDto updateRestaurantLike(Long contentId, User user) {
 
-        Restaurant restaurant = restaurantRepository.findById(contentId).orElseThrow(() -> new RuntimeException("Restaurant not found"));
-
-        if (user.getId().equals(restaurant.getUser().getId())) {
-            throw new CustomException(ErrorType.BLOCKED_USER);
+        Restaurant restaurant = restaurantRepository.findById(contentId).orElseThrow(() -> new CustomException(ErrorType.NOT_FOUND_RESTAURANT));
+        if (user.getAccountId().equals(restaurant.getUser().getAccountId())) {
+            throw new CustomException(ErrorType.CONTENT_OWNER);
         }
 
         RestaurantLike restaurantLike = restaurantLikeRepository.findByUserAndRestaurant(user, restaurant)
                 .orElseGet(() -> new RestaurantLike(user, restaurant));
+
 
         restaurantLike.update();
         restaurantLikeRepository.save(restaurantLike);
@@ -40,10 +40,10 @@ public class LikeService {
     }
 
     public LikeResponseDto updateCommentLike(Long contentId, User user) {
-        Comment comment = commentRepository.findById(contentId).orElseThrow(() -> new RuntimeException("Review not found"));
+        Comment comment = commentRepository.findById(contentId).orElseThrow(() -> new CustomException(ErrorType.NOT_FOUND_COMMENT));
 
-        if (user.getId().equals(comment.getUser().getId())) {
-            throw new CustomException(ErrorType.BLOCKED_USER);
+        if (user.getAccountId().equals(comment.getUser().getAccountId())) {
+            throw new CustomException(ErrorType.CONTENT_OWNER);
         }
 
         CommentLike commentLike = commentLikeRepository.findByUserAndComment(user, comment)

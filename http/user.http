@@ -1,0 +1,63 @@
+### 회원가입
+POST http://localhost:8080/users
+Content-Type: application/json
+Cookie: accessToken={{accessToken}}; refreshToken={{refreshToken}}
+
+{
+  "accountId": "matdil12",
+  "password": "matDil1!2",
+  "name": "user1",
+  "email": "insidesy432@gmail.com",
+  "userType" : "CONSUMER"
+
+}
+
+
+### 로그인
+POST http://localhost:8080/users/login
+Content-Type: application/json
+
+{
+  "accountId": "matdil12",
+  "password": "matDil1!2"
+}
+
+> {%
+    client.log(response.headers.valueOf("Authorization"));
+    client.log(response.headers.valueOf("RefreshToken"));
+    client.global.set("accessToken", response.headers.valueOf("Authorization"));
+    client.global.set("refreshToken", response.headers.valueOf("RefreshToken"));
+%}
+
+
+### 로그아웃
+POST http://localhost:8080/users/logout
+Content-Type: application/json
+accessToken: {{accessToken}}
+refreshToken: {{refreshToken}}
+
+> {%
+    client.global.clear("accessToken");
+    client.global.clear("refreshToken");
+%}
+
+
+### 회원 프로필 조회
+GET http://localhost:8080/users
+accessToken: {{accessToken}}
+refreshToken: {{refreshToken}}
+
+
+
+### 회원 프로필 수정
+PUT http://localhost:8080/users
+accessToken: {{accessToken}}
+refreshToken: {{refreshToken}}
+Content-Type: application/json
+
+{
+  "name": "matdilUpdate",
+  "intro": "안녕하세요, 맛딜 인트로를 업데이트 했습니다.",
+  "password": "matDil1!2",
+  "newPassword": "matDil1!24%"
+}

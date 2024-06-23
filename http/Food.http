@@ -1,0 +1,60 @@
+### 음식점 ID, 음식 ID
+@restaurantId = 1
+@foodId = 1
+
+
+### 음식 등록 1 - 마늘 보쌈
+POST http://localhost:8080/restaurants/{{restaurantId}}/foods
+Content-Type: application/json
+
+{
+    "foodname" : "마늘보쌈",
+    "price" : 20000,
+    "description" : "한국인의 입맛, 마늘 보쌈"
+}
+
+
+### 음식 등록 2 - 쟁반 국수
+POST http://localhost:8080/restaurants/{{restaurantId}}/foods
+Content-Type: application/json
+
+{
+  "foodname" : "쟁반국수",
+  "price" : 15000,
+  "description" : "한국인의 매운 맛, 쟁반 국수"
+}
+
+
+### 음식 등록 3 - 족발
+POST http://localhost:8080/restaurants/{{restaurantId}}/foods
+Content-Type: application/json
+
+{
+  "foodname" : "족발",
+  "price" : 24000,
+  "description" : "야들야들한 족발이 매우 싸다!"
+}
+
+
+### 전체 음식 조회
+GET http://localhost:8080/restaurants/{{restaurantId}}/foods?page=1
+
+
+
+### 특정 음식 조회
+GET http://localhost:8080/restaurants/{{restaurantId}}/foods/{{foodId}}
+
+
+### 특정 음식 수정
+PUT http://localhost:8080/restaurants/{{restaurantId}}/foods/{{foodId}}
+Content-Type: application/json
+
+{
+  "foodname" : "마늘양념보쌈",
+  "price" : 18000,
+  "description" : "마늘보쌈에서 마늘양념보쌈으로 업그레이드 되었고, 가격은 싸졌다!"
+}
+
+
+### 특정 음식 삭제
+DELETE http://localhost:8080/restaurants/{{restaurantId}}/foods/{{foodId}}

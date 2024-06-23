@@ -25,4 +25,11 @@ public class OrderDetails extends Timestamped{
 
     @Column(nullable = false)
     private int price;
+
+    public OrderDetails(Order order, Food food, int price) {
+        this.order = order;
+        this.food = food;
+        this.price = price;
+    }
 }
+

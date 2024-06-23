@@ -31,4 +31,13 @@ public class Order extends Timestamped {
     public void setTotalPrice(int totalPrice) {
         this.total_price = totalPrice;
     }
+
+    public Order (User user, Restaurant restaurant) {
+        this.user = user;
+        this.restaurant = restaurant;
+    }
+
+    public void sumPrice(int price) {
+        this.total_price += price;
+    }
 }

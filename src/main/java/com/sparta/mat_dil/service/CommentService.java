@@ -88,7 +88,7 @@ public class CommentService {
 
     // 댓글 삭제
     @Transactional
-    public void deleteComment(Long restaurantId, Long commentId, User user, PasswordRequestDto requestDto) {
+    public void deleteComment(Long restaurantId, Long commentId, User user) {
         // 음식점이 존재하는지 확인
         validateRestaurantId(restaurantId);
 
@@ -98,10 +98,6 @@ public class CommentService {
         // 댓글 작성자 검증
         checkUserComment(user, comment);
 
-        // 비밀번호 검증
-        if (!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())) {
-            throw new CustomException(ErrorType.INVALID_PASSWORD);
-        }
         commentRepository.delete(comment);
     }
 

@@ -27,8 +27,7 @@ public class OrderController {
     @PostMapping("/{restaurantsId}")
     public ResponseEntity<OrderDetailDataDto<List<OrderResponseDto>>> createOrder(@PathVariable Long restaurantsId, @RequestBody OrderRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         OrderDetailDataDto<List<OrderResponseDto>> orderDetails = orderService.create(restaurantsId, requestDto.getFoodId(), userDetails.getUser());
-          return ResponseEntity.ok(orderDetails);
-//        return ResponseEntity.ok(new OrderDetailDataDto<>(ResponseStatus.ORDER_CHECK_SUCCESS, orderList, sum));
+        return ResponseEntity.ok(new OrderDetailDataDto<>(ResponseStatus.ORDER_CHECK_SUCCESS, orderDetails, orderDetails.getTotalPrice()).getData());
     }
 
 }

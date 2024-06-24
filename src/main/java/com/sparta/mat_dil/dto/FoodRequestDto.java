@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class FoodRequestDto {
-    private String foodname;
+    private String foodName;
     private int price;
     private String description;
 }

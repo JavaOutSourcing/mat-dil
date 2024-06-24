@@ -124,9 +124,9 @@ public class RestaurantController {
     //댓글 삭제
     @DeleteMapping("/{restaurantId}/comments/{commentId}")
     public ResponseEntity<ResponseMessageDto> deleteComment(@PathVariable Long restaurantId, @PathVariable Long commentId,
-                                                @RequestBody PasswordRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+                                                @AuthenticationPrincipal UserDetailsImpl userDetails){
 
-        commentService.deleteComment(restaurantId, commentId, userDetails.getUser(), requestDto);
+        commentService.deleteComment(restaurantId, commentId, userDetails.getUser());
 
         return ResponseEntity.ok(new ResponseMessageDto(ResponseStatus.COMMENT_DELETE_SUCCESS));
     }

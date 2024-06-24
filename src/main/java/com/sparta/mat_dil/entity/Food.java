@@ -30,13 +30,13 @@ public class Food extends Timestamped {
     private Restaurant restaurant;
 
     public Food(Restaurant restaurant, FoodRequestDto foodRequestDto){
-        this.foodName=foodRequestDto.getFoodname();
+        this.foodName=foodRequestDto.getFoodName();
         this.price=foodRequestDto.getPrice();
         this.description= foodRequestDto.getDescription();
         this.restaurant=restaurant;
     }
     public void update(FoodRequestDto requestDto) {
-        this.foodName = requestDto.getFoodname();
+        this.foodName = requestDto.getFoodName();
         this.price=requestDto.getPrice();
         this.description = requestDto.getDescription();
     }

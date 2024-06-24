@@ -1,7 +1,9 @@
 package com.sparta.mat_dil.controller;
 
 import com.sparta.mat_dil.dto.LikeResponseDto;
+import com.sparta.mat_dil.dto.ResponseDataDto;
 import com.sparta.mat_dil.enums.ContentTypeEnum;
+import com.sparta.mat_dil.enums.ResponseStatus;
 import com.sparta.mat_dil.exception.CustomException;
 import com.sparta.mat_dil.security.UserDetailsImpl;
 import com.sparta.mat_dil.service.LikeService;
@@ -21,7 +23,7 @@ public class LikeController {
     private final LikeService likeService;
 
     @PutMapping("/{contentType}/{contentId}")
-    public ResponseEntity<String> updateRestaurantLike(@PathVariable("contentType") ContentTypeEnum contentType, @PathVariable("contentId") Long contentId, @AuthenticationPrincipal UserDetailsImpl userDetails) throws CustomException {
+    public ResponseEntity<ResponseDataDto<LikeResponseDto>> updateRestaurantLike(@PathVariable("contentType") ContentTypeEnum contentType, @PathVariable("contentId") Long contentId, @AuthenticationPrincipal UserDetailsImpl userDetails) throws CustomException {
 
         LikeResponseDto likeResponseDto;
 
@@ -32,9 +34,9 @@ public class LikeController {
         }
 
         if (likeResponseDto.isLiked()) {
-            return ResponseEntity.ok("좋아요 : " + likeResponseDto.getCnt());
+            return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.LIKE_CREATE_SUCCESS, likeResponseDto));
         } else {
-            return ResponseEntity.ok("좋아요 취소 : " + likeResponseDto.getCnt());
+            return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.LIKE_DELETE_SUCCESS, likeResponseDto));
         }
     }
 }

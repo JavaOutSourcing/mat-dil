@@ -94,7 +94,7 @@ public class JwtUtil {
         try {
             accessToken = URLEncoder.encode(accessToken, "utf-8").replaceAll("\\+", "%20"); // Cookie Value 에는 공백이 불가능해서 encoding 진행
             refreshToken = URLEncoder.encode(refreshToken, "utf-8").replaceAll("\\+", "%20");
-
+            log.info(accessToken);
             Cookie cookieAccess = new Cookie(AUTHORIZATION_HEADER, accessToken); // Name-Value
             Cookie cookieRefresh = new Cookie(REFRESH_HEADER, refreshToken);
             cookieAccess.setPath("/");
@@ -210,6 +210,10 @@ public class JwtUtil {
     //토큰 블랙리스트 검사
     private boolean isTokenBlacklisted(String token) {
         return tokenBlacklist.contains(token);
+    }
+
+    public void addBlackListToken(String token){
+        tokenBlacklist.add(token);
     }
 
 }

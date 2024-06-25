@@ -9,6 +9,7 @@ import com.sparta.mat_dil.entity.User;
 import com.sparta.mat_dil.entity.UserStatus;
 import com.sparta.mat_dil.enums.ErrorType;
 import com.sparta.mat_dil.exception.CustomException;
+import com.sparta.mat_dil.jwt.JwtUtil;
 import com.sparta.mat_dil.repository.PasswordHistoryRepository;
 import com.sparta.mat_dil.repository.UserRepository;
 import jakarta.servlet.http.Cookie;
@@ -29,6 +30,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordHistoryRepository passwordHistoryRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
 
     //회원가입
@@ -131,14 +133,19 @@ public class UserService {
         return new ProfileResponseDto(user);
     }
 
+    @Transactional
     public void logout(User user, HttpServletResponse res, HttpServletRequest req) {
         user.logout();
         Cookie[] cookies = req.getCookies();
+        String accessToken=jwtUtil.getAccessTokenFromRequest(req);
+        jwtUtil.addBlackListToken(accessToken.substring(7));
+
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 cookie.setValue(null);
                 cookie.setPath("/");
                 cookie.setMaxAge(0);
+
                 res.addCookie(cookie);
             }
         }

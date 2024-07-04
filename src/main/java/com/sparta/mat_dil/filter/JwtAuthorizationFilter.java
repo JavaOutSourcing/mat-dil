@@ -67,7 +67,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     // 인증 처리
     public void setAuthentication(String username) {
-        log.error(username);
+        log.info(username);
         SecurityContext context = SecurityContextHolder.createEmptyContext();
         Authentication authentication = createAuthentication(username);
         context.setAuthentication(authentication);

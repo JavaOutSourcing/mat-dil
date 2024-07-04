@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Entity
@@ -48,6 +49,24 @@ public class User extends Timestamped{
 
     @Column
     private Long kakaoId;
+
+    @OneToMany(mappedBy = "fromUser")
+    private List<Follow> followings;
+
+    @OneToMany(mappedBy = "toUser")
+    private List<Follow> followers;
+
+    @Column(nullable = false)
+    private Long followersCnt=0L;
+
+    @Column(nullable = false)
+    private Long commentLikes=0L;
+
+    @Column(nullable = false)
+    private Long restaurantLikes=0L;
+
+    @Column(nullable = false)
+    private Long totalLikes=0L;
 
     //로그인시 리프레시 토큰 초기화
     @Transactional
@@ -91,4 +110,20 @@ public class User extends Timestamped{
     public void kakaoIdUpdate(Long kakaoId) {
         this.kakaoId=kakaoId;
     }
+
+    public void calculFollowersCnt(){
+        this.followersCnt+=1;
+    }
+
+    public void updateCommentLikesCnt(){
+        this.commentLikes +=1;
+    }
+
+    public void updateRestaurantLikesCnt(){
+        this.restaurantLikes +=1;
+    }
+
+//    public void getTotalLikesCnt(){
+//        this.totalLikes=this.commentLikes+this.restaurantLikes;
+//    } --> 필요 없는듯
 }

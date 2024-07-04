@@ -30,7 +30,7 @@ public class UserController {
     //회원 탈퇴
     @PatchMapping
     public ResponseEntity<ResponseMessageDto> withdrawUser(@Valid @RequestBody PasswordRequestDto requestDTO,
-        @AuthenticationPrincipal UserDetailsImpl userDetails){
+                                                           @AuthenticationPrincipal UserDetailsImpl userDetails){
         userService.withdrawUser(requestDTO, userDetails.getUser());
         return ResponseEntity.ok(new ResponseMessageDto(ResponseStatus.DEACTIVATE_USER_SUCCESS));
     }
@@ -44,13 +44,14 @@ public class UserController {
         return ResponseEntity.ok(new ResponseMessageDto(ResponseStatus.LOGOUT_SUCCESS));
     }
 
-    //회원 정보 조회
+    //회원 정보 조회(음식점, 댓글의 좋아요 수도 포함해서 반환)
     @GetMapping
     public ResponseEntity<ResponseDataDto<ProfileResponseDto>> getProfile(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.PROFILE_CHECK_SUCCESS, userService.getProfile(userDetails.getUser().getId())));
     }
 
     //회원 정보 수정
+    //ProfileResponseDto에 내가 좋아요한 게시글/댓글 수 필드 추가 - 필수 구현
     @PutMapping
     public ResponseEntity<ResponseDataDto<ProfileResponseDto>> profileUpdate(
             @AuthenticationPrincipal UserDetailsImpl userDetails,

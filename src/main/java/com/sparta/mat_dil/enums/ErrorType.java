@@ -18,7 +18,7 @@ public enum ErrorType {
     BLOCKED_USER(HttpStatus.LOCKED, "차단된 회원입니다."),
     NOT_FOUND_USER(HttpStatus.NOT_FOUND, "회원을 찾을 수 없습니다."),
     NOT_ACCEPTED_COMMENT(HttpStatus.LOCKED, "본인의 음식점에는 댓글들 작성할 수 없습니다."),
-    CONTENT_OWNER(HttpStatus.NOT_FOUND, "본인의 음식점과 댓글에는 ‘좋아요'를 추가할 수 없습니다."),
+    CONTENT_OWNER(HttpStatus.NOT_FOUND, "본인의 음식점과 댓글에는 ‘좋아요' 또는 '팔로우'를 할 수 없습니다."),
     PASSWORD_RECENTLY_USED(HttpStatus.LOCKED, "최근에 사용한 비밀번호는 사용할 수 없습니다."),
 
     // restaurant,
@@ -30,6 +30,7 @@ public enum ErrorType {
     // comment,
     NOT_FOUND_COMMENT(HttpStatus.NOT_FOUND, "존재하지 않는 댓글입니다."),
     NO_ATUTHENTIFICATION(HttpStatus.UNAUTHORIZED, "권한이 없습니다."),
+
 
     // JWT
     INVALID_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "유효하지 않은 리프레시 토큰입니다. 다시 로그인 해주세요."),

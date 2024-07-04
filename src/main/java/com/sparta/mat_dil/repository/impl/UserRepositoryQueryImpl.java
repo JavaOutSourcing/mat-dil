@@ -1,4 +1,4 @@
-package com.sparta.mat_dil.impl;
+package com.sparta.mat_dil.repository.impl;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;

@@ -48,18 +48,19 @@ public class RestaurantController {
 
 
     /**
-    * 특정 음식점 조회
-    * @param id 음식점 id
-    * @return status.code, message
-    **/
+     * 특정 음식점 조회
+     * @param id 음식점 id
+     * @return status.code, message
+     * ++ 응답에 like 개수 추가
+     **/
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDataDto<RestaurantResponseDto>> getRestaurant(@PathVariable Long id) {
-        RestaurantResponseDto responseDto = restaurantService.getRestaurant(id);
+    public ResponseEntity<ResponseDataDto<SingleRestaurantResponseDto>> getRestaurant(@PathVariable Long id) {
+        SingleRestaurantResponseDto responseDto = restaurantService.getRestaurant(id);
         return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.RESTAURANT_CHECK_SUCCESS, responseDto));
     }
 
 
-     /**
+    /**
      * 특정 음식점 수정
      * @param id 음식점 id
      * @param userDetails 회원 정보
@@ -85,11 +86,10 @@ public class RestaurantController {
     }
 
 
-
     //댓글 등록
     @PostMapping("/{restaurants_id}/comments")
     public ResponseEntity<ResponseDataDto<CommentResponseDto>> createComment(@PathVariable Long restaurants_id, @RequestBody CommentRequestDto requestDto,
-                                                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+                                                                             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         CommentResponseDto responseDto = commentService.createComment(restaurants_id, requestDto, userDetails.getUser());
 
         return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.COMMENT_CREATE_SUCCESS, responseDto));
@@ -104,17 +104,18 @@ public class RestaurantController {
     }
 
     //단일 댓글 조회
+    //응답에 likes 개수 추가
     @GetMapping("/{restaurantId}/comments/{commentId}")
-    public ResponseEntity<ResponseDataDto<CommentResponseDto>> getComment(@PathVariable Long restaurantId, @PathVariable Long commentId){
-        CommentResponseDto responseDto = commentService.getComment(restaurantId, commentId);
+    public ResponseEntity<ResponseDataDto<SingleCommentResponseDto>> getComment(@PathVariable Long restaurantId, @PathVariable Long commentId){
+        SingleCommentResponseDto responseDto = commentService.getComment(restaurantId, commentId);
 
         return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.COMMENT_CHECK_SUCCESS, responseDto));
     }
 
-//    //댓글 수정
+    //    //댓글 수정
     @PutMapping("/{restaurantId}/comments/{commentId}")
     public ResponseEntity<ResponseDataDto<CommentResponseDto>> updateComment(@PathVariable Long restaurantId, @PathVariable Long commentId,
-                                                            @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+                                                                             @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
 
         CommentResponseDto responseDto = commentService.updateComment(restaurantId, commentId, userDetails.getUser(), requestDto);
 
@@ -124,7 +125,7 @@ public class RestaurantController {
     //댓글 삭제
     @DeleteMapping("/{restaurantId}/comments/{commentId}")
     public ResponseEntity<ResponseMessageDto> deleteComment(@PathVariable Long restaurantId, @PathVariable Long commentId,
-                                                @AuthenticationPrincipal UserDetailsImpl userDetails){
+                                                            @AuthenticationPrincipal UserDetailsImpl userDetails){
 
         commentService.deleteComment(restaurantId, commentId, userDetails.getUser());
 
@@ -138,7 +139,7 @@ public class RestaurantController {
         return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.FOOD_CREATE_SUCCESS, responseDto));
     }
 
-   //전체 음식 조회
+    //전체 음식 조회
     @GetMapping("/{restaurantId}/foods")
     public Page<FoodResponseDto> getFoodList(@RequestParam(value = "page") int page, @PathVariable Long restaurantId) {
         return restaurantService.getFoodList(page - 1, restaurantId);

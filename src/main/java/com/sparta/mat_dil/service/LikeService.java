@@ -35,7 +35,7 @@ public class LikeService {
 
         restaurantLike.update();
         restaurantLikeRepository.save(restaurantLike);
-
+        user.updateCommentLikesCnt();
         return calculateRestaurantLike(restaurantLike, restaurant);
     }
 
@@ -51,7 +51,7 @@ public class LikeService {
 
         commentLike.update();
         commentLikeRepository.save(commentLike);
-
+        user.updateRestaurantLikesCnt();
         return calculateCommentLike(commentLike, comment);
     }
 

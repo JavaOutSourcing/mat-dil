@@ -164,7 +164,7 @@ POST http://localhost:8080/restaurants/{{restaurantId}}/foods
 Content-Type: application/json
 
 {
-  "foodname" : "마늘보쌈",
+  "foodName" : "마늘보쌈",
   "price" : 20000,
   "description" : "한국인의 입맛, 마늘 보쌈"
 }
@@ -175,7 +175,7 @@ POST http://localhost:8080/restaurants/{{restaurantId}}/foods
 Content-Type: application/json
 
 {
-  "foodname" : "쟁반국수",
+  "foodName" : "쟁반국수",
   "price" : 15000,
   "description" : "한국인의 매운 맛, 쟁반 국수"
 }
@@ -186,7 +186,7 @@ POST http://localhost:8080/restaurants/{{restaurantId}}/foods
 Content-Type: application/json
 
 {
-  "foodname" : "족발",
+  "foodName" : "족발",
   "price" : 24000,
   "description" : "야들야들한 족발이 매우 싸다!"
 }
@@ -205,7 +205,7 @@ PUT http://localhost:8080/restaurants/{{restaurantId}}/foods/{{foodId}}
 Content-Type: application/json
 
 {
-  "foodname" : "마늘양념보쌈",
+  "foodName" : "마늘양념보쌈",
   "price" : 18000,
   "description" : "마늘보쌈에서 마늘양념보쌈으로 업그레이드 되었고, 가격은 싸졌다!"
 }
@@ -234,7 +234,7 @@ Content-Type: application/json
 
 {
   "accountId": "consumer0",
-  "password": "Consumer1!"
+  "password": "Consumer0!"
 }
 
 

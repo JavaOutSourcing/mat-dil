@@ -1,9 +1,6 @@
 package com.sparta.mat_dil.controller;
 
-import com.sparta.mat_dil.dto.CommentResponseDto;
-import com.sparta.mat_dil.dto.LikeResponseDto;
-import com.sparta.mat_dil.dto.ResponseDataDto;
-import com.sparta.mat_dil.dto.RestaurantResponseDto;
+import com.sparta.mat_dil.dto.*;
 import com.sparta.mat_dil.enums.ContentTypeEnum;
 import com.sparta.mat_dil.enums.ResponseStatus;
 import com.sparta.mat_dil.exception.CustomException;
@@ -47,13 +44,14 @@ public class LikeController {
 
     //내가 좋아요한 음식점 목록 조회 - 필수 구현
     @GetMapping("/restaurant")
-    public Page<RestaurantResponseDto> getLikeRestaurantList(@RequestParam(value = "page") int page, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return restaurantLikeService.getLikeRestaurantList(page - 1, userDetails.getUser());
+    public ResponseEntity<ResponseDataDto<LikeRestaurantResponseDto>> getLikeRestaurantList(@RequestParam(value = "page") int page, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.LIKE_SELECT_SUCCESS,restaurantLikeService.getLikeRestaurantList(page - 1, userDetails.getUser())));
+
     }
 
     //내가 좋아요한 댓글 목록 조회
     @GetMapping("/comment")
-    public Page<CommentResponseDto> getLikeCommentList(@RequestParam(value = "page") int page, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return commentLikeService.getLikeCommentList(page - 1, userDetails.getUser());
+    public ResponseEntity<ResponseDataDto<LikeCommentResponseDto>> getLikeCommentList(@RequestParam(value = "page") int page, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.LIKE_SELECT_SUCCESS,commentLikeService.getLikeCommentList(page - 1, userDetails.getUser())));
     }
 }

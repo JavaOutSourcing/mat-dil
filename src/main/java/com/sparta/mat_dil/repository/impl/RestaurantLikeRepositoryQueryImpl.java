@@ -1,4 +1,4 @@
-package com.sparta.mat_dil.impl;
+package com.sparta.mat_dil.repository.impl;
 
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
@@ -27,6 +27,7 @@ public class RestaurantLikeRepositoryQueryImpl implements RestaurantLikeReposito
     public Collection<RestaurantLike> getAllLikeRestaurant(String accountId, Pageable pageable) {
         QRestaurantLike restaurantLike=QRestaurantLike.restaurantLike;
         List<OrderSpecifier> ORDERS= getAllOrderSpecifiers(pageable);
+
         return queryFactory.selectFrom(restaurantLike)
                 .where(restaurantLike.user.accountId.eq(accountId))
                 //orderBy가 List<>를 지원하지 않아 배열로 바꿔준다

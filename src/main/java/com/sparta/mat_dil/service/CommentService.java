@@ -2,7 +2,7 @@ package com.sparta.mat_dil.service;
 
 import com.sparta.mat_dil.dto.CommentRequestDto;
 import com.sparta.mat_dil.dto.CommentResponseDto;
-import com.sparta.mat_dil.dto.PasswordRequestDto;
+import com.sparta.mat_dil.dto.SingleCommentResponseDto;
 import com.sparta.mat_dil.entity.Comment;
 import com.sparta.mat_dil.entity.Restaurant;
 import com.sparta.mat_dil.entity.User;
@@ -11,7 +11,6 @@ import com.sparta.mat_dil.exception.CustomException;
 import com.sparta.mat_dil.repository.CommentRepository;
 import com.sparta.mat_dil.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.codec.CodecException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,7 +41,6 @@ public class CommentService {
                 .description(requestDto.getDescription())
                 .build();
         commentRepository.save(comment);
-
         return new CommentResponseDto(comment);
     }
 
@@ -59,14 +57,14 @@ public class CommentService {
 
     // 단일 댓글 조회
     @Transactional(readOnly = true)
-    public CommentResponseDto getComment(Long restaurantId, Long commentId) {
+    public SingleCommentResponseDto getComment(Long restaurantId, Long commentId) {
         // 음식점이 존재하는지 확인
         validateRestaurantId(restaurantId);
 
         // 댓글 존재 검증
         Comment comment = validateComment(commentId);
 
-        return new CommentResponseDto(comment);
+        return new SingleCommentResponseDto(comment);
     }
 
     // 댓글 수정

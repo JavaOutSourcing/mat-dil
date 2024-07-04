@@ -3,7 +3,6 @@ package com.sparta.mat_dil.dto;
 import com.sparta.mat_dil.entity.Restaurant;
 import com.sparta.mat_dil.entity.RestaurantLike;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 public class RestaurantResponseDto {

@@ -1,4 +1,4 @@
-package com.sparta.mat_dil.impl;
+package com.sparta.mat_dil.repository.impl;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -8,8 +8,6 @@ import com.sparta.mat_dil.entity.QRestaurant;
 import com.sparta.mat_dil.entity.Restaurant;
 import com.sparta.mat_dil.repository.FollowRepositoryQuery;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -33,18 +31,15 @@ public class FollowRepositoryQueryImpl implements FollowRepositoryQuery {
     }
 
     @Override
-    public Page<Restaurant> findAllByToUserAccountId(String accountId, Pageable pageable) {
-
-        List<Restaurant> restaurants =
-                queryFactory.select(restaurant)
-                        .from(follow)
-                        .join(restaurant).on(follow.toUser.accountId.eq(restaurant.user.accountId))
-                        .where(follow.fromUser.accountId.eq(accountId))
-                        .orderBy(restaurant.restaurantName.asc(), restaurant.createdAt.desc())
-                        .offset(pageable.getOffset())
-                        .limit(pageable.getPageSize())
-                        .fetch();
-        return new PageImpl<>(restaurants);
+    public List<Restaurant> findAllByToUserAccountId(String accountId, Pageable pageable) {
+        return queryFactory.select(restaurant)
+                .from(follow)
+                .join(restaurant).on(follow.toUser.accountId.eq(restaurant.user.accountId))
+                .where(follow.fromUser.accountId.eq(accountId))
+                .orderBy(restaurant.restaurantName.asc(), restaurant.createdAt.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
     }
 
     private BooleanExpression fromUserEq(String myAccountId){

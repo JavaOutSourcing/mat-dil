@@ -111,6 +111,7 @@ public class User extends Timestamped{
         this.kakaoId=kakaoId;
     }
 
+    //팔로워 +1
     public void calculFollowersCnt(){
         this.followersCnt+=1;
     }
@@ -123,7 +124,4 @@ public class User extends Timestamped{
         this.restaurantLikes +=1;
     }
 
-//    public void getTotalLikesCnt(){
-//        this.totalLikes=this.commentLikes+this.restaurantLikes;
-//    } --> 필요 없는듯
 }

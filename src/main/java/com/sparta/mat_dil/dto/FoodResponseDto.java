@@ -2,7 +2,6 @@ package com.sparta.mat_dil.dto;
 
 import com.sparta.mat_dil.entity.Food;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
 public class FoodResponseDto {

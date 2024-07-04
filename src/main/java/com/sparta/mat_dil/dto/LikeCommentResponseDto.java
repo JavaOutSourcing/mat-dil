@@ -1,6 +1,5 @@
 package com.sparta.mat_dil.dto;
 
-import com.sparta.mat_dil.entity.Restaurant;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.domain.Page;

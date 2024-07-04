@@ -1,6 +1,9 @@
 package com.sparta.mat_dil.controller;
 
-import com.sparta.mat_dil.dto.*;
+import com.sparta.mat_dil.dto.LikeCommentResponseDto;
+import com.sparta.mat_dil.dto.LikeResponseDto;
+import com.sparta.mat_dil.dto.LikeRestaurantResponseDto;
+import com.sparta.mat_dil.dto.ResponseDataDto;
 import com.sparta.mat_dil.enums.ContentTypeEnum;
 import com.sparta.mat_dil.enums.ResponseStatus;
 import com.sparta.mat_dil.exception.CustomException;
@@ -9,7 +12,6 @@ import com.sparta.mat_dil.service.CommentLikeService;
 import com.sparta.mat_dil.service.LikeService;
 import com.sparta.mat_dil.service.RestaurantLikeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;

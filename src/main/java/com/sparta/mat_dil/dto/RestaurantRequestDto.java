@@ -1,12 +1,8 @@
 package com.sparta.mat_dil.dto;
 
-import com.sparta.mat_dil.entity.Restaurant;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 //@AllArgsConstructor

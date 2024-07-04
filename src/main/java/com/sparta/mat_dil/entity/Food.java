@@ -1,9 +1,7 @@
 package com.sparta.mat_dil.entity;
 
 import com.sparta.mat_dil.dto.FoodRequestDto;
-import com.sparta.mat_dil.dto.RestaurantRequestDto;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

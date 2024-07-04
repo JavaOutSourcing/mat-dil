@@ -8,12 +8,12 @@ import java.util.List;
 
 @Getter
 @Builder
-public class LikeRestaurantResponseDto {
+public class FollowingResponseDto {
     private final int currentPage;
     private final List<RestaurantResponseDto> restaurantList;
 
-    public static LikeRestaurantResponseDto of(int currentPage, Page<RestaurantResponseDto> restaurants) {
-        return LikeRestaurantResponseDto.builder()
+    public static FollowingResponseDto of(int currentPage, Page<RestaurantResponseDto> restaurants) {
+        return FollowingResponseDto.builder()
                 .currentPage(currentPage)
                 .restaurantList(restaurants.getContent().stream().toList())
                 .build();

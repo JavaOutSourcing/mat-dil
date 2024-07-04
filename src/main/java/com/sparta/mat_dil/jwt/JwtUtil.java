@@ -1,6 +1,5 @@
 package com.sparta.mat_dil.jwt;
 
-import com.sparta.mat_dil.entity.User;
 import com.sparta.mat_dil.entity.UserType;
 import com.sparta.mat_dil.enums.ErrorType;
 import com.sparta.mat_dil.exception.CustomException;

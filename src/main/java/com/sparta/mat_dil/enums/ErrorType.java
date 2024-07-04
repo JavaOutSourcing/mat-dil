@@ -31,6 +31,7 @@ public enum ErrorType {
     NOT_FOUND_COMMENT(HttpStatus.NOT_FOUND, "존재하지 않는 댓글입니다."),
     NO_ATUTHENTIFICATION(HttpStatus.UNAUTHORIZED, "권한이 없습니다."),
 
+
     // JWT
     INVALID_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "유효하지 않은 리프레시 토큰입니다. 다시 로그인 해주세요."),
     NOT_FOUND_AUTHENTICATION_INFO(HttpStatus.NOT_FOUND, "인증 정보를 찾을 수 없습니다."),

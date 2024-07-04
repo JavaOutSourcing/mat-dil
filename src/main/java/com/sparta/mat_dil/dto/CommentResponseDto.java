@@ -1,6 +1,7 @@
 package com.sparta.mat_dil.dto;
 
 import com.sparta.mat_dil.entity.Comment;
+import com.sparta.mat_dil.entity.CommentLike;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -20,4 +21,12 @@ public class CommentResponseDto {
         this.createdAt = comment.getCreatedAt();
         this.modifiedAt = comment.getModifiedAt();
     }
+    public CommentResponseDto(CommentLike commentLike){
+        this.accountId = commentLike.getUser().getAccountId();
+        this.name = commentLike.getUser().getName();
+        this.description = commentLike.getComment().getDescription();
+        this.createdAt = commentLike.getCreatedAt();
+        this.modifiedAt = commentLike.getModifiedAt();
+    }
+
 }

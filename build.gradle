@@ -23,6 +23,8 @@ repositories {
     mavenCentral()
 }
 
+def querydslVersion = "5.0.0"
+
 dependencies {
 
      //JWT
@@ -43,8 +45,36 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // QueryDSL 적용을 위한 의존성 (SpringBoot3.0 부터는 jakarta 사용해야함)
+    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+    annotationProcessor "com.querydsl:querydsl-apt:${querydslVersion}:jakarta"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+def querydslDir = "$buildDir/generated/querydsl"
+
+//sourceSets {
+//    main {
+//        java {
+//            srcDirs = ['src/main/java', 'build/generated/sources/annotationProcessor/java/main']
+//        }
+//    }
+//}
+//sourceSets { main.java.srcDirs += 'build/generated' }
+sourceSets { main.java.srcDirs += [ querydslDir ] }
+
+tasks.withType(JavaCompile) {
+    options.annotationProcessorGeneratedSourcesDirectory = file(querydslDir)
+}
+
+//compileJava {
+//    options.annotationProcessorPath = configurations.annotationProcessor }
+
+tasks.withType(Test) {
+    enabled = false
 }

@@ -40,6 +40,8 @@ public enum ResponseStatus {
     LIKE_CREATE_SUCCESS(HttpStatus.OK, "좋아요가 등록 되었습니다."),
     LIKE_DELETE_SUCCESS(HttpStatus.OK, "좋아요가 취소 되었습니다."),
 
+    //팔로우
+    FOLLOW_CREATE_SUCCESS(HttpStatus.NOT_FOUND, "팔로우 성공"),
 
     // [ADMIN]
     // 공지

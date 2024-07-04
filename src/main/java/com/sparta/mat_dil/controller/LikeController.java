@@ -1,19 +1,21 @@
 package com.sparta.mat_dil.controller;
 
+import com.sparta.mat_dil.dto.CommentResponseDto;
 import com.sparta.mat_dil.dto.LikeResponseDto;
 import com.sparta.mat_dil.dto.ResponseDataDto;
+import com.sparta.mat_dil.dto.RestaurantResponseDto;
 import com.sparta.mat_dil.enums.ContentTypeEnum;
 import com.sparta.mat_dil.enums.ResponseStatus;
 import com.sparta.mat_dil.exception.CustomException;
 import com.sparta.mat_dil.security.UserDetailsImpl;
+import com.sparta.mat_dil.service.CommentLikeService;
 import com.sparta.mat_dil.service.LikeService;
+import com.sparta.mat_dil.service.RestaurantLikeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/like")
@@ -21,9 +23,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class LikeController {
 
     private final LikeService likeService;
+    private final RestaurantLikeService restaurantLikeService;
+    private final CommentLikeService commentLikeService;
 
+    // 음식점/댓글에 좋아요 하기 - 필수 구현
     @PutMapping("/{contentType}/{contentId}")
-    public ResponseEntity<ResponseDataDto<LikeResponseDto>> updateRestaurantLike(@PathVariable("contentType") ContentTypeEnum contentType, @PathVariable("contentId") Long contentId, @AuthenticationPrincipal UserDetailsImpl userDetails) throws CustomException {
+    public ResponseEntity<ResponseDataDto<LikeResponseDto>> updatetLike(@PathVariable("contentType") ContentTypeEnum contentType, @PathVariable("contentId") Long contentId, @AuthenticationPrincipal UserDetailsImpl userDetails) throws CustomException {
 
         LikeResponseDto likeResponseDto;
 
@@ -38,5 +43,17 @@ public class LikeController {
         } else {
             return ResponseEntity.ok(new ResponseDataDto<>(ResponseStatus.LIKE_DELETE_SUCCESS, likeResponseDto));
         }
+    }
+
+    //내가 좋아요한 음식점 목록 조회 - 필수 구현
+    @GetMapping("/restaurant")
+    public Page<RestaurantResponseDto> getLikeRestaurantList(@RequestParam(value = "page") int page, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return restaurantLikeService.getLikeRestaurantList(page - 1, userDetails.getUser());
+    }
+
+    //내가 좋아요한 댓글 목록 조회
+    @GetMapping("/comment")
+    public Page<CommentResponseDto> getLikeCommentList(@RequestParam(value = "page") int page, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return commentLikeService.getLikeCommentList(page - 1, userDetails.getUser());
     }
 }
